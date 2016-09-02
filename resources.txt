@@ -1,0 +1,4 @@
+Information Resources:
+
+http://docs.godotengine.org/en/latest/index.html
+https://try.github.io/
