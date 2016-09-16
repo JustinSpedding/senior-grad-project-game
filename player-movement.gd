@@ -1,8 +1,12 @@
 extends Node
 
-var speed = 4
+var speed = 2
+var acceleration = .5
+var friction = .25
 var primary_fire_cooldown = 0
 var bullet_scene = load("res://bullet-scene.tscn")
+var vertical_speed = 0
+var horizontal_speed = 0
 
 func _ready():
 	set_process(true)
@@ -10,21 +14,28 @@ func _ready():
 func _process(delta):
 	var cube = get_node("player")
 	var location = cube.get_transform()
+	get_node("player").translate(Vector3(horizontal_speed * delta, 0, vertical_speed * delta))
 	
-	var vertical_movement = 0
-	var horizontal_movement = 0
+	if (Input.is_action_pressed("ui_down") and vertical_speed < speed):
+		vertical_speed += acceleration
+	if (Input.is_action_pressed("ui_up") and vertical_speed > -speed):
+		vertical_speed -= acceleration
+	if (Input.is_action_pressed("ui_left") and horizontal_speed < speed):
+		horizontal_speed += acceleration
+	if (Input.is_action_pressed("ui_right") and horizontal_speed > -speed):
+		horizontal_speed -= acceleration
+	if (vertical_speed > 0):
+		vertical_speed -= friction
+	elif (vertical_speed < 0):
+		vertical_speed += friction
+	if (horizontal_speed > 0):
+		horizontal_speed -= friction
+	elif (horizontal_speed < 0):
+		horizontal_speed += friction
 	
-	if (Input.is_action_pressed("ui_up")):
-		vertical_movement += delta*speed
-	if (Input.is_action_pressed("ui_down")):
-		vertical_movement -= delta*speed
-	if (Input.is_action_pressed("ui_right")):
-		horizontal_movement += delta*speed
-	if (Input.is_action_pressed("ui_left")):
-		horizontal_movement -= delta*speed
+	#location.origin += Vector3(horizontal_movement,vertical_movement,0)
 	
-	location.origin += Vector3(horizontal_movement,vertical_movement,0)
-	cube.set_transform(location)
+	#cube.set_transform(location)
 	
 	primary_fire_cooldown -= delta
 	if (Input.is_action_pressed("player_fire_primary") && primary_fire_cooldown <= 0):
