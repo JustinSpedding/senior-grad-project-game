@@ -33,10 +33,6 @@ func _process(delta):
 	elif (horizontal_speed < 0):
 		horizontal_speed += friction
 	
-	#location.origin += Vector3(horizontal_movement,vertical_movement,0)
-	
-	#cube.set_transform(location)
-	
 	primary_fire_cooldown -= delta
 	if (Input.is_action_pressed("player_fire_primary") && primary_fire_cooldown <= 0):
 		primary_fire_cooldown = 0.1
