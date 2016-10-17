@@ -11,5 +11,3 @@ func _fixed_process(delta):
 	if (target != null):
 		translate((target.get_global_transform().origin - get_global_transform().origin) * .1);
 		pass;
-
-

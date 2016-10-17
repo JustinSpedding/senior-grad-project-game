@@ -1,17 +1,15 @@
 
 extends Spatial
 
-var velocity = Vector3(0,0,0)
-var time_to_live = 1
+var speed = 0
+var time_to_live = 3
 
 func _ready():
 	set_process(true)
 
 func _process(delta):
 	var bullet = get_node("bullet")
-	var location = bullet.get_transform()
-	location.origin += velocity*delta
-	bullet.set_transform(location)
+	bullet.translate(Vector3(0, 0, -speed)*delta)
 	
 	time_to_live -= delta
 	if (time_to_live <= 0):

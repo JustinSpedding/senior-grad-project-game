@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://world_env.tres" type="Environment" id=1]
-[ext_resource path="res://world_script.gd" type="Script" id=2]
-[ext_resource path="res://player-scene.tscn" type="PackedScene" id=3]
-[ext_resource path="res://player.gd" type="Script" id=4]
+[ext_resource path="res://scripts/world.gd" type="Script" id=2]
+[ext_resource path="res://player_scene.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Animation" id=1]
 
@@ -12,26 +11,23 @@ length = 12.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("player:transform/translation")
+tracks/0/path = NodePath("player_scene:transform/translation")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 5, 6, 11 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 0, 0, -20 ), Vector3( 0, 0, -20 ), Vector3( 0, 0, 0 ) ] }
 tracks/1/type = "value"
-tracks/1/path = NodePath("player:transform/rotation")
+tracks/1/path = NodePath("player_scene:transform/rotation")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0, 5, 6, 11 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 180, 0 ), Vector3( 0, 180, 0 ) ] }
 
-[node name="Spatial" type="WorldEnvironment"]
+[node name="world" type="WorldEnvironment"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 environment = ExtResource( 1 )
 script/script = ExtResource( 2 )
 
-[node name="player" parent="." instance=ExtResource( 3 )]
-
-transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -6.68051 )
-script/script = ExtResource( 4 )
+[node name="player_scene" parent="." instance=ExtResource( 3 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
