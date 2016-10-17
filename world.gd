@@ -1,7 +1,7 @@
 
 extends Spatial
 
-var rambot_scene = load("res://rambot9001.tscn");
+var rambot_scene = load("res://enemies/rambot9001/rambot9001.tscn");
 
 func _ready():
 	create_rambot()

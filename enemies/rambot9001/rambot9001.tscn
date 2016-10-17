@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=1]
 
-[ext_resource path="res://scripts/rambot9001.gd" type="Script" id=1]
+[ext_resource path="res://enemies/rambot9001/rambot9001.gd" type="Script" id=1]
 
 [node name="KinematicBody" type="KinematicBody"]
 

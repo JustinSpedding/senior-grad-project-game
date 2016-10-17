@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
-[ext_resource path="res://scripts/bullet.gd" type="Script" id=1]
-[ext_resource path="res://bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://misc/bullet/bullet.gd" type="Script" id=1]
+[ext_resource path="res://misc/bullet/bullet.tscn" type="PackedScene" id=2]
 
 [node name="Spatial" type="Spatial"]
 
