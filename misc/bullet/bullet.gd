@@ -9,7 +9,7 @@ func _ready():
 
 func _process(delta):
 	var bullet = get_node("bullet")
-	bullet.translate(Vector3(0, 0, -speed)*delta)
+	bullet.move(Vector3(0, 0, -speed)*delta)
 	
 	time_to_live -= delta
 	if (time_to_live <= 0):

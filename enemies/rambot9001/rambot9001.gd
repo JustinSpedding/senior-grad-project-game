@@ -16,6 +16,7 @@ func setTarget(t):
 	target = t;
 	
 func _fixed_process(delta):
+	print(is_colliding())
 	if (target != null):
 		if (state == STATE.Homing):
 			home();
@@ -24,15 +25,15 @@ func _fixed_process(delta):
 
 func home():
 	# Move closer to target
-	translate((target.get_global_transform().origin + Vector3(0, 0, -2) - get_global_transform().origin) * 0.1);
+	move((target.get_global_transform().origin + Vector3(0, 0, -4) - get_global_transform().origin) * 0.1);
 	
 	# Switch to attacking state if the rambot is already close enough to the target
-	if (isCloseEnough(target.get_global_transform().origin + Vector3(0, 0, -2), get_global_transform().origin, 0.7)):
+	if (isCloseEnough(target.get_global_transform().origin + Vector3(0, 0, -4), get_global_transform().origin, 0.7)):
 		state = STATE.Attacking;
 
 func attack():
 	# Attack in straight line
-	translate(Vector3(0, 0, 0.2));
+	move(Vector3(0, 0, 0.2));
 	
 	# Switch to homing if the target passed the rambot
 	if (target.get_global_transform().origin.z < get_global_transform().origin.z):
