@@ -16,7 +16,9 @@ func setTarget(t):
 	target = t;
 	
 func _fixed_process(delta):
-	print(is_colliding())
+	if is_colliding():
+		if get_collider() != target and get_collider() != null:
+			get_collider().queue_free()
 	if (target != null):
 		if (state == STATE.Homing):
 			home();

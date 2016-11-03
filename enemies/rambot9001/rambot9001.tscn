@@ -10,11 +10,12 @@ extents = Vector3( 1, 1, 1 )
 [node name="rambot" type="KinematicBody"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0018295, -0.00512815, -0.00513637 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 0.232641, 0, 0, 0, 0.232641, 0, 0, 0, 0.232641, 0, 0, 0.0650966 )
+shapes/0/transform = Transform( 0.232641, 0, 0, 0, 0.232641, 0, 0, 0, 0.372641, 0, 0, -0.0708682 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -25,14 +26,16 @@ collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
 
-[node name="rambot-model" parent="." instance=ExtResource( 2 )]
+[node name="rambot-model" type="Spatial" parent="." instance=ExtResource( 2 )]
 
+_import_path = NodePath(".")
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( -1.62921e-06, 0, 10, 0, 10, 0, -10, 0, -1.62921e-06, -0.05, 0.3, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.232641, 0, 0, 0, 0.232641, 0, 0, 0, 0.232641, 0, 0, 0.0650966 )
+transform/local = Transform( 0.232641, 0, 0, 0, 0.232641, 0, 0, 0, 0.372641, 0, 0, -0.0708682 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0

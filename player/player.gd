@@ -1,7 +1,7 @@
 
 extends KinematicBody
 
-var bullet_scene = load("res://misc/bullet/bullet_scene.tscn")
+var bullet_scene = load("res://misc/bullet/bullet.tscn")
 
 var max_speed = 10
 var friction = .5
