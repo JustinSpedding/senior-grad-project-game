@@ -10,6 +10,7 @@ const STATE = {
 const homing_speed = 5
 const attacking_speed = 20
 const attack_distance = 4
+const attack_damage = 100
 const charge_time = 0.5
 
 var target
@@ -53,8 +54,13 @@ func attack(delta):
 	# Attack in straight line
 	translate(Vector3(0, 0, delta * attacking_speed))
 	
-	# Switch to homing if passed target or colliding with target
-	if target.get_global_transform().origin.z <= get_global_transform().origin.z or is_close_enough(get_global_transform().origin, target.get_global_transform().origin, 0.5):
+	# Switch to homing if passed target
+	if target.get_global_transform().origin.z <= get_global_transform().origin.z:
+		state = STATE.Homing
+	
+	# Damage player and switch to homing if hit target
+	if is_close_enough(get_global_transform().origin, target.get_global_transform().origin, 0.5):
+		target.health -= attack_damage
 		state = STATE.Homing
 
 func is_close_enough(point1, point2, distance):
