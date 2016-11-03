@@ -35,10 +35,10 @@ func _fixed_process(delta):
 
 func home():
 	# Move closer to target
-	move((target.get_global_transform().origin + Vector3(0, 0, -attack_distance) - get_global_transform().origin) * 0.1);
+	translate((target.get_global_transform().origin + Vector3(0, 0, -attack_distance) - get_global_transform().origin) * 0.1);
 	
 	# Switch to attacking state if the rambot is already close enough to the target
-	if (isCloseEnough(target.get_global_transform().origin + Vector3(0, 0, -attack_distance), get_global_transform().origin, 0.7)):
+	if (is_close_enough(target.get_global_transform().origin + Vector3(0, 0, -attack_distance), get_global_transform().origin, 0.7)):
 		state = STATE.Charging
 		charge_time_remaining = charge_time
 
@@ -49,12 +49,12 @@ func charge(delta):
 
 func attack():
 	# Attack in straight line
-	move(Vector3(0, 0, 0.2))
+	translate(Vector3(0, 0, 0.2))
 	
 	# Switch to homing if passed target or colliding with target
-	if target.get_global_transform().origin.z <= get_global_transform().origin.z or (is_colliding() and get_collider() == target):
+	if target.get_global_transform().origin.z <= get_global_transform().origin.z or is_close_enough(get_global_transform().origin, target.get_global_transform().origin, 0.5):
 		state = STATE.Homing
 
-func isCloseEnough(point1, point2, distance):
+func is_close_enough(point1, point2, distance):
 	var diff = (point1 - point2).abs()
 	return diff.x <= distance && diff.y <= distance && diff.z <= distance
