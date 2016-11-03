@@ -10,16 +10,6 @@ resource/name = "Move player scene"
 length = 12.0
 loop = true
 step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("player_scene:transform/translation")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 5, 6, 11 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 0, 0, -20 ), Vector3( 0, 0, -20 ), Vector3( 0, 0, 0 ) ] }
-tracks/1/type = "value"
-tracks/1/path = NodePath("player_scene:transform/rotation")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 5, 6, 11 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 180, 0 ), Vector3( 0, 180, 0 ) ] }
 
 [node name="world" type="WorldEnvironment"]
 
@@ -63,5 +53,62 @@ shadow/mode = 0
 shadow/max_distance = 0.0
 shadow/split_weight = 0.5
 shadow/zoffset_scale = 2.0
+
+[node name="TestCube" type="TestCube" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.15898, 2.2729, -9.72912 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+
+[node name="TestCube 2" type="TestCube" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.855528, -4.21185, -4.91609 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+
+[node name="TestCube 3" type="TestCube" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.89453, -0.00769758, -7.85581 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
 
 
