@@ -3,13 +3,16 @@ extends KinematicBody
 
 const STATE = {
 	Homing = 0,
-	Attacking = 1
+	Charging = 1,
+	Attacking = 2
 }
 
 const attack_distance = 4
+const charge_time = 0.5
 
 var target
 var state = STATE.Homing
+var charge_time_remaining
 
 func _ready():
 	set_fixed_process(true)
@@ -18,12 +21,13 @@ func setTarget(t):
 	target = t
 
 func _fixed_process(delta):
-	if is_colliding():
-		if get_collider() != target and get_collider() != null:
-			get_collider().queue_free()
+	if is_colliding() and get_collider() != target and get_collider() != null:
+		get_collider().queue_free()
 	if target != null:
 		if (state == STATE.Homing):
 			home()
+		elif (state == STATE.Charging):
+			charge(delta)
 		elif (state == STATE.Attacking):
 			attack()
 
@@ -33,6 +37,12 @@ func home():
 	
 	# Switch to attacking state if the rambot is already close enough to the target
 	if (isCloseEnough(target.get_global_transform().origin + Vector3(0, 0, -attack_distance), get_global_transform().origin, 0.7)):
+		state = STATE.Charging
+		charge_time_remaining = charge_time
+
+func charge(delta):
+	charge_time_remaining -= delta
+	if charge_time_remaining < 0:
 		state = STATE.Attacking
 
 func attack():
