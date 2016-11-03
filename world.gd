@@ -11,8 +11,9 @@ func _fixed_process(delta):
 	pass;
 
 func create_rambot():
-	var player = get_node("player_scene").get_node("player");
+	var player_scene = get_node("player_scene")
+	var player = player_scene.get_node("player");
 	var rambot = rambot_scene.instance();
 	rambot.setTarget(player);
 	rambot.translate(Vector3(0, 0, -1000));
-	add_child(rambot);
+	player_scene.add_child(rambot);
