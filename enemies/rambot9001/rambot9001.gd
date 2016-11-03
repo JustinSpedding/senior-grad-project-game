@@ -11,6 +11,7 @@ const attack_distance = 4
 const charge_time = 0.5
 
 var target
+var health = 1000
 var state = STATE.Homing
 var charge_time_remaining
 
@@ -21,8 +22,9 @@ func setTarget(t):
 	target = t
 
 func _fixed_process(delta):
-	if is_colliding() and get_collider() != target and get_collider() != null:
-		get_collider().queue_free()
+	if health <= 0:
+		queue_free()
+	
 	if target != null:
 		if (state == STATE.Homing):
 			home()
@@ -49,7 +51,7 @@ func attack():
 	# Attack in straight line
 	move(Vector3(0, 0, 0.2))
 	
-	# Switch to homing if the target passed the rambot
+	# Switch to homing if passed target or colliding with target
 	if target.get_global_transform().origin.z <= get_global_transform().origin.z or (is_colliding() and get_collider() == target):
 		state = STATE.Homing
 

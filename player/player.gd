@@ -34,7 +34,7 @@ func _fixed_process(delta):
 		speed_vector.x = 0
 	if (abs(speed_vector.y) < friction):
 		speed_vector.y = 0
-	translate(speed_vector * delta)
+	move(speed_vector * delta)
 	
 	primary_fire_time_remaining -= delta
 	if (Input.is_action_pressed("player_fire_primary") && primary_fire_time_remaining <= 0):
@@ -42,4 +42,6 @@ func _fixed_process(delta):
 		var bullet = bullet_scene.instance()
 		bullet.speed = primary_fire_bullet_speed
 		get_tree().get_root().get_node("world").add_child(bullet)
-		bullet.set_transform(get_global_transform())
+		var new_bullet_location = get_global_transform()
+		new_bullet_location.origin += Vector3(0,0,-0.8)
+		bullet.set_transform(new_bullet_location)

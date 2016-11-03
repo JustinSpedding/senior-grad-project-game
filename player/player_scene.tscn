@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=2 format=1]
 
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://player/player.gd" type="Script" id=2]
 
 [node name="Spatial" type="Spatial"]
 
@@ -23,7 +22,5 @@ h_offset = 0.0
 v_offset = 0.0
 
 [node name="player" parent="." instance=ExtResource( 1 )]
-
-script/script = ExtResource( 2 )
 
 
