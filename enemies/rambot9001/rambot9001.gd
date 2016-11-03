@@ -21,7 +21,7 @@ func _fixed_process(delta):
 	if is_colliding():
 		if get_collider() != target and get_collider() != null:
 			get_collider().queue_free()
-	if (target != null):
+	if target != null:
 		if (state == STATE.Homing):
 			home()
 		elif (state == STATE.Attacking):
@@ -40,7 +40,7 @@ func attack():
 	move(Vector3(0, 0, 0.2))
 	
 	# Switch to homing if the target passed the rambot
-	if (target.get_global_transform().origin.z < get_global_transform().origin.z):
+	if target.get_global_transform().origin.z <= get_global_transform().origin.z or (is_colliding() and get_collider() == target):
 		state = STATE.Homing
 
 func isCloseEnough(point1, point2, distance):
