@@ -8,8 +8,8 @@ const STATE = {
 }
 
 const homing_speed = 5
+const homing_distance = 4
 const attacking_speed = 20
-const attack_distance = 4
 const attack_damage = 100
 const charge_time = 0.5
 
@@ -20,9 +20,6 @@ var charge_time_remaining
 
 func _ready():
 	set_fixed_process(true)
-	
-func setTarget(t):
-	target = t
 
 func _fixed_process(delta):
 	if health <= 0:
@@ -38,16 +35,16 @@ func _fixed_process(delta):
 
 func home(delta):
 	# Move closer to target
-	translate((target.get_global_transform().origin + Vector3(0, 0, -attack_distance) - get_global_transform().origin) * delta * homing_speed);
+	translate((target.get_global_transform().origin + Vector3(0, 0, -homing_distance) - get_global_transform().origin) * delta * homing_speed);
 	
-	# Switch to attacking state if the rambot is already close enough to the target
-	if (is_close_enough(target.get_global_transform().origin + Vector3(0, 0, -attack_distance), get_global_transform().origin, 0.7)):
+	# Switch to charging state if the rambot is already close enough to the target
+	if (is_close_enough(target.get_global_transform().origin + Vector3(0, 0, -homing_distance), get_global_transform().origin, 0.7)):
 		state = STATE.Charging
 		charge_time_remaining = charge_time
 
 func charge(delta):
 	charge_time_remaining -= delta
-	if charge_time_remaining < 0:
+	if charge_time_remaining <= 0:
 		state = STATE.Attacking
 
 func attack(delta):
