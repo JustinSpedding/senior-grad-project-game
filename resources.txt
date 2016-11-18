@@ -2,3 +2,6 @@ Information Resources:
 
 http://docs.godotengine.org/en/latest/index.html
 https://try.github.io/
+https://plot.ly/matplotlib/fft/
+https://www.youtube.com/watch?v=0ALKGR0I5MA
+https://en.wikipedia.org/wiki/Audio_frequency
