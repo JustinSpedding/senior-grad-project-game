@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://enemies/kamikaze/kamikaze.gd" type="Script" id=1]
+[ext_resource path="res://enemies/kamikaze/kamikaze.scn" type="PackedScene" id=2]
+
+[node name="kamikaze" type="KinematicBody"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input/ray_pickable = true
+input/capture_on_drag = false
+shape_count = 0
+collision/layers = 1
+collision/mask = 1
+collide_with/static = true
+collide_with/kinematic = true
+collide_with/rigid = true
+collide_with/character = true
+collision/margin = 0.001
+script/script = ExtResource( 1 )
+
+[node name="kamikaze_model" parent="." instance=ExtResource( 2 )]
+
+transform/local = Transform( 7, 0, 0, 0, 7, 0, 0, 0, 7, 0.24, 0, 0 )
+
+
