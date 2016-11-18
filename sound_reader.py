@@ -16,14 +16,15 @@ if len(data[0]) > 1:
 else:
     channel = data[:, 0]
 #channel = data
-duration = int(len(data) / (rate / 10))
+duration = int(len(data) / (rate / 20))
 fig = plt.figure()
 ax = fig.gca()
+ax.plot([1])
 plt.show()
 xs = []
 ys = []
 for i in range(duration):
-    piece = channel[rate * i / 10 : rate * (i + 1) / 10]
+    piece = channel[rate * i / 20 : rate * (i + 1) / 20]
     n = len(piece)
     values = np.fft.fft(piece)
     upper_bound = max(values) / 2
@@ -32,11 +33,11 @@ for i in range(duration):
         #    values[i] = 0
             pass
         values[i] /= ((n // 2) - i) * ((upper_bound * n // 2) - i)
-    values = abs(values[5 : 600])
+    values = abs(values[2 : 300])
     k = np.arange(n)
     T = len(piece) / rate
     frq = k / T
-    frq = frq[5 : 600]
+    frq = frq[2 : 300]
     xs.append(frq)
     ys.append(values)
 print("get ready!")
@@ -49,8 +50,9 @@ for i in range(len(xs)):
     ax.plot(xs[i], ys[i])
     fig.canvas.draw()
     stop = time.time()
-    sync += .1 - (stop - start)
-    if (sync > .1) :
+    sync += .05 - (stop - start)
+    print(sync)
+    if (sync > .05) :
         start = time.time()
         time.sleep(sync)
         stop = time.time()
