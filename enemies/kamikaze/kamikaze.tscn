@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://enemies/kamikaze/kamikaze.gd" type="Script" id=1]
-[ext_resource path="res://enemies/kamikaze/kamikaze.scn" type="PackedScene" id=2]
+[ext_resource path="res://enemies/kamikaze/kamikaze-model.scn" type="PackedScene" id=2]
 
 [node name="kamikaze" type="KinematicBody"]
 

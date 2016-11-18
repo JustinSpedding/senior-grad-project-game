@@ -7,7 +7,7 @@
 
 extents = Vector3( 1, 1, 1 )
 
-[node name="rambot" type="KinematicBody" groups=[ "enemy", "rambot", "damageable" ]]
+[node name="rambot" type="KinematicBody" groups=[ "rambot", "damageable", "enemy" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0018295, -0.00512815, -0.00513637 )
