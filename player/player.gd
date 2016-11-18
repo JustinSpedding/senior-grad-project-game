@@ -8,6 +8,7 @@ const friction = .5
 const acceleration_magnitude = 1
 const primary_fire_cooldown = 0.1
 const primary_fire_bullet_speed = 20
+const primary_fire_damage = 200
 
 var health = 1000
 var speed_vector = Vector3(0, 0, 0)
@@ -49,5 +50,7 @@ func _fixed_process(delta):
 		primary_fire_time_remaining = primary_fire_cooldown
 		var bullet = bullet_scene.instance()
 		bullet.speed = primary_fire_bullet_speed
+		bullet.damage = primary_fire_damage
+		bullet.target_group = "damageable"
 		get_parent().get_parent().add_child(bullet)
 		bullet.set_transform(get_global_transform())
