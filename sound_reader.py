@@ -10,21 +10,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 rate, data = file.read("sad.wav")
+framerate = 10
 channel = []
 if len(data[0]) > 1:
     channel = (data[:, 0] + data[:, 1]) / 2
 else:
-    channel = data[:, 0]
-#channel = data
-duration = int(len(data) / (rate / 20))
+    channel = data[:, 0] # this case doesn't work correctly yet
+#channel = data   use this if it's a single channel song and above doesn't work
+duration = int(len(data) / (rate / framerate))
 fig = plt.figure()
 ax = fig.gca()
-ax.plot([1])
 plt.show()
 xs = []
 ys = []
 for i in range(duration):
-    piece = channel[rate * i / 20 : rate * (i + 1) / 20]
+    piece = channel[rate * i // framerate : rate * (i + 1) // framerate]
     n = len(piece)
     values = np.fft.fft(piece)
     upper_bound = max(values) / 2
@@ -33,11 +33,11 @@ for i in range(duration):
         #    values[i] = 0
             pass
         values[i] /= ((n // 2) - i) * ((upper_bound * n // 2) - i)
-    values = abs(values[2 : 300])
+    values = abs(values[50 // framerate : 6000 // framerate])
     k = np.arange(n)
     T = len(piece) / rate
     frq = k / T
-    frq = frq[2 : 300]
+    frq = frq[50 // framerate : 6000 // framerate]
     xs.append(frq)
     ys.append(values)
 print("get ready!")
@@ -50,9 +50,8 @@ for i in range(len(xs)):
     ax.plot(xs[i], ys[i])
     fig.canvas.draw()
     stop = time.time()
-    sync += .05 - (stop - start)
-    print(sync)
-    if (sync > .05) :
+    sync += (1 / framerate) - (stop - start)
+    if (sync > .1) : #leave it .1 due to inaccuracy of smaller sleeps.
         start = time.time()
         time.sleep(sync)
         stop = time.time()
