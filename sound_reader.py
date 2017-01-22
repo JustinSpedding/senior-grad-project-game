@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 rate, data = file.read("cool.wav")
 framerate = 30
+barcount = 10
 channel = []
 if len(data[0]) > 1:
     channel = (data[:, 0] + data[:, 1]) / 2
@@ -19,7 +20,7 @@ else:
 #channel = data   use this if it's a single channel song and above doesn't work
 duration = int(len(data) / (rate / framerate))
 ys = []
-xs = []
+#xs = []
 n = rate // framerate
 k = np.arange(n)
 T = n / rate
@@ -34,15 +35,26 @@ for i in range(n // 2):
         stop = i
         break
 for i in range(duration):
-    piece = channel[rate * i // framerate : rate * (i + 1) // framerate]
-    
+    piece = channel[rate * i // framerate : rate * (i + 1) // framerate]    
     Y = np.fft.fft(piece) / n
     Y = Y[range(n // 2)]
-    ys.append(abs(Y)[start:stop])
-    xs.append(frq[start:stop])
+    data = abs(Y)[start:stop]
+    #ys.append(abs(Y)[start:stop])
+    #xs.append(frq[start:stop])
+    bars = []
+    bar = 0
+    for j in range(len(data)):
+        bar += data[j]
+        if (j + 1) % barcount == 0:
+            bars.append(bar // barcount)
+            bar = 0
+    ys.append(bars)
+
 def animate(i):
     ax.clear()
-    ax.plot(xs[i], ys[i])
+    x = range(len(ys[i]))
+    ax.bar(x, ys[i])
+    ax.set_ylim([0, 1000])
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 ani = animation.FuncAnimation(fig, animate, frames=duration, interval=framerate)
