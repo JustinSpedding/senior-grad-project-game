@@ -6,6 +6,9 @@ var bullet_scene = load("res://misc/bullet/bullet.tscn")
 const max_speed = 10
 const friction = .5
 const acceleration_magnitude = 1
+const x_bound = 3
+const y_bound = 1.5
+
 const primary_fire_cooldown = 0.1
 const primary_fire_bullet_speed = 20
 const primary_fire_damage = 200
@@ -43,6 +46,19 @@ func _fixed_process(delta):
 	if (abs(speed_vector.y) < friction):
 		speed_vector.y = 0
 	translate(speed_vector * delta)
+	
+	# Do not let player leave observable area
+	var new_location = get_global_transform().origin
+	if (new_location.x > x_bound):
+		new_location.x = x_bound
+	if (new_location.x < -x_bound):
+		new_location.x = -x_bound
+	if (new_location.y > y_bound):
+		new_location.y = y_bound
+	if (new_location.y < -y_bound):
+		new_location.y = -y_bound
+	new_location.z = 0
+	set_translation(new_location)
 	
 	# Fire weapons
 	primary_fire_time_remaining -= delta
