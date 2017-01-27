@@ -49,12 +49,29 @@ for i in range(duration):
             bars.append(bar // barcount)
             bar = 0
     ys.append(bars)
-
+    
+finalYs = []
+for i in range(duration - 1):
+    prevBars = ys[i]
+    currentBars = ys[i + 1]
+    finalBars = []
+    for b in range(len(ys[i])):
+        finalBars.append(currentBars[b] - prevBars[b])
+    limit = 20
+    for b in range(len(finalBars)):
+        if finalBars[b] < limit:
+            finalBars[b] = 0
+    if i > 0:
+        for b in range(len(finalYs[i - 1])):
+            if (finalYs[i - 1][b] != 0):
+                finalBars[b] = 0
+    finalYs.append(finalBars)
+finalYs.append([])
 def animate(i):
     ax.clear()
-    x = range(len(ys[i]))
-    ax.bar(x, ys[i])
-    ax.set_ylim([0, 1000])
+    x = range(len(finalYs[i]))
+    ax.bar(x, finalYs[i])
+    ax.set_ylim([0, 500])
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 ani = animation.FuncAnimation(fig, animate, frames=duration, interval=framerate)
