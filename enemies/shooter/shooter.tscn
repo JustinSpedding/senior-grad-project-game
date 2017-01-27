@@ -3,7 +3,7 @@
 [ext_resource path="res://enemies/shooter/shooter.gd" type="Script" id=1]
 [ext_resource path="res://enemies/shooter/shooter-model.scn" type="PackedScene" id=2]
 
-[node name="shooter" type="KinematicBody" groups=[ "enemy", "shooter", "damageable" ]]
+[node name="shooter" type="KinematicBody" groups=[ "damageable", "enemy", "shooter" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true

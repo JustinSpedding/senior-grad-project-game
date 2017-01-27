@@ -9,16 +9,16 @@ const STATE = {
 }
 
 const homing_speed = 5
-const homing_distance = 8
+const homing_distance = 7
 const wandering_speed = 3
 const wandering_x_bound = 5
 const wandering_y_bound = 3
 
 const bullet_speed = 20
-const bullet_damage = 100
+const bullet_damage = 300
 
 var target
-var health = 1000
+var health = 800
 var state = STATE.Homing
 var direction
 

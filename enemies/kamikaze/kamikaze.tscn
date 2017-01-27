@@ -3,7 +3,7 @@
 [ext_resource path="res://enemies/kamikaze/kamikaze.gd" type="Script" id=1]
 [ext_resource path="res://enemies/kamikaze/kamikaze-model.scn" type="PackedScene" id=2]
 
-[node name="kamikaze" type="KinematicBody"]
+[node name="kamikaze" type="KinematicBody" groups=[ "kamikaze", "damageable", "enemy" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true

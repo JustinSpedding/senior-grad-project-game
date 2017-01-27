@@ -15,10 +15,10 @@ const wandering_x_bound = 5
 const wandering_y_bound = 3
 
 const bullet_speed = 20
-const bullet_damage = 100
+const bullet_damage = 150
 
 var target
-var health = 1000
+var health = 600
 var state = STATE.Homing
 var direction
 
