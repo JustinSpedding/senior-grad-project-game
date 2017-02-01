@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://world_env.tres" type="Environment" id=1]
 [ext_resource path="res://world.gd" type="Script" id=2]
 [ext_resource path="res://player/player_scene.tscn" type="PackedScene" id=3]
+[ext_resource path="res://hud_scene.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 
@@ -110,5 +111,7 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
+
+[node name="hud" parent="." instance=ExtResource( 4 )]
 
 

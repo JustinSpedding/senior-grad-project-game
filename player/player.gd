@@ -22,7 +22,7 @@ func _ready():
 
 func _fixed_process(delta):
 	# Set health test in HUD
-	var health_text = get_tree().get_root().get_node("root").get_node("hud").get_node("health_text")
+	var health_text = get_tree().get_root().get_node("world").get_node("hud").get_node("health_text")
 	health_text.clear()
 	health_text.add_text("Health: " + str(health))
 	
