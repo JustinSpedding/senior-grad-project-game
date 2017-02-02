@@ -1,4 +1,6 @@
-[gd_resource type="Environment" format=1]
+[gd_resource type="Environment" load_steps=2 format=1]
+
+[ext_resource path="misc/skybox/skybox.png" type="Texture" id=1]
 
 [resource]
 
@@ -6,8 +8,9 @@ ambient_light/enabled = true
 ambient_light/color = Color( 1, 1, 1, 1 )
 ambient_light/energy = 0.4
 fxaa/enabled = false
-background/mode = 2
+background/mode = 3
 background/color = Color( 0.358432, 0.359375, 0.238647, 1 )
+background/texture = ExtResource( 1 )
 background/energy = 1.0
 background/scale = 1.0
 background/glow = 0.0
