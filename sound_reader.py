@@ -78,14 +78,14 @@ for i in range(duration // framerate):
                 finalYs[i * framerate + j][b] = 0
 finalYs.append([])
 def animate(i):
-    #ax.clear()
+    ax.clear()
     x = range(len(finalYs[i]))
-    #ax.bar(x, finalYs[i])
-    #ax.set_ylim([0, 500])
+    ax.bar(x, finalYs[i])
+    ax.set_ylim([0, 500])
 def writeJSON():
-    formattedYs = []
+    formattedYs = {}
     for i in range(barcount):
-        formattedYs.append([])
+        formattedYs[i] = []
     for i in range(len(finalYs)):
         for j in range(len(finalYs[i])):
             if finalYs[i][j] != 0:
@@ -93,11 +93,11 @@ def writeJSON():
     with open('data.txt', 'w') as outfile:
         json.dump(formattedYs, outfile)
 writeJSON()
-#fig = plt.figure()
-#ax = fig.add_subplot(1, 1, 1)
-#ani = animation.FuncAnimation(fig, animate, frames=duration, interval=framerate)
-#plt.rcParams['animation.ffmpeg_path'] = './ffmpeg/bin/ffmpeg.exe'
-#FFwriter = animation.FFMpegWriter(fps=framerate)
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ani = animation.FuncAnimation(fig, animate, frames=duration, interval=framerate)
+plt.rcParams['animation.ffmpeg_path'] = './ffmpeg/bin/ffmpeg.exe'
+FFwriter = animation.FFMpegWriter(fps=framerate)
 print("saving file")
-#ani.save('animation.mp4', writer = FFwriter)
+ani.save('animation.mp4', writer = FFwriter)
 print("done writing")
