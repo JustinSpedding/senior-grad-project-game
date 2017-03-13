@@ -39,12 +39,12 @@ func _ready():
 	var file = File.new()
 	file.open("./data.txt", file.READ)
 	data.parse_json(file.get_as_text())
-	rambot_spawn_time = data["4"][0]
+	rambot_spawn_time = data["0"][0]
+	data["0"].remove(0)
+	shooter_spawn_time = data["4"][0]
 	data["4"].remove(0)
-	shooter_spawn_time = data["5"][0]
+	shooter_attack_time = data["5"][0]
 	data["5"].remove(0)
-	shooter_attack_time = data["2"][0]
-	data["2"].remove(0)
 	kamikaze_spawn_time = data["3"][0]
 	data["3"].remove(0)
 	sniper_spawn_time = data["4"][0]
@@ -53,10 +53,10 @@ func _ready():
 	data["5"].remove(0)
 	rocketeer_attack_time = data["6"][0]
 	data["6"].remove(0)
-	rambot_spawn_time = data["7"][0]
-	data["7"].remove(0)
+	#rambot_spawn_time = data["7"][0]
+	#data["7"].remove(0)
 	file.close()
-	get_node("SamplePlayer").play("cool")
+	get_node("SamplePlayer").play("sad")
 	set_fixed_process(true)
 
 func _fixed_process(delta):
@@ -64,15 +64,16 @@ func _fixed_process(delta):
 	player_scene.translate(Vector3(0, 0, -delta))
 	
 	time += delta
-	if rambot_spawn_time <= time:
-		create_enemy(rambot_scene)
-		rambot_spawn_time = data["4"][0]
-		data["4"].remove(0)
+	print(time)
+	if shooter_attack_time <= time:
+		get_tree().call_group(0, "shooter", "shoot")
+		shooter_attack_time = data["5"][0]
+		data["5"].remove(0)
 	
 	if shooter_spawn_time <= time:
 		create_enemy(shooter_scene)
-		shooter_spawn_time = data["5"][0]
-		data["5"].remove(0)
+		shooter_spawn_time = data["4"][0]
+		data["4"].remove(0)
 	
 #	rambot_spawn_time_remaining -= delta
 #	if rambot_spawn_time_remaining <= 0:

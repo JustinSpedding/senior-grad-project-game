@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://world_env.tres" type="Environment" id=1]
 [ext_resource path="res://world.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://hud_scene.tscn" type="PackedScene" id=4]
 [ext_resource path="res://misc/meteors/meteor1.scn" type="PackedScene" id=5]
 [ext_resource path="res://cool.wav" type="Sample" id=6]
+[ext_resource path="res://sad.wav" type="Sample" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -17,6 +18,7 @@ step = 0.1
 [sub_resource type="SampleLibrary" id=2]
 
 samples/cool = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
+samples/sad = { "db":0.0, "pitch":1.0, "sample":ExtResource( 7 ) }
 
 [node name="world" type="WorldEnvironment"]
 
