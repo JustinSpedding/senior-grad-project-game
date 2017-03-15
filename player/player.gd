@@ -13,7 +13,7 @@ const primary_fire_cooldown = 0.1
 const primary_fire_bullet_speed = 20
 const primary_fire_damage = 200
 
-var health = 1000
+var health = 5000
 var speed_vector = Vector3(0, 0, 0)
 var primary_fire_time_remaining = 0
 

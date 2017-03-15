@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
-rate, data = file.read("sad.wav")
+rate, data = file.read("cool.wav")
 framerate = 30
 barcount = 8
 channel = []

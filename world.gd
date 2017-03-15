@@ -9,11 +9,11 @@ var rocketeer_scene = load("res://enemies/rocketeer/rocketeer.tscn")
 
 var rambot_spawn_number = "0"
 var kamikaze_spawn_number = "1"
-var shooter_spawn_number = "2"
+var shooter_spawn_number = "4"
 var sniper_spawn_number = "3"
-var rocketeer_spawn_number = "4"
-var shooter_attack_number = "5"
-var rocketeer_attack_number = "6"
+var rocketeer_spawn_number = "2"
+var shooter_attack_number = "6"
+var rocketeer_attack_number = "5"
 var sniper_attack_number = "7"
 
 var data = {}
@@ -40,13 +40,12 @@ func _ready():
 	sniper_attack_time = get_next_time(data, sniper_attack_number)
 	rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 	file.close()
-	get_node("SamplePlayer").play("anime")
+	get_node("SamplePlayer").play("cool")
 	set_fixed_process(true)
 
 func _fixed_process(delta):
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
-	
 	
 	time += delta
 	if rambot_spawn_time <= time:
@@ -71,14 +70,20 @@ func _fixed_process(delta):
 	
 	if shooter_attack_time <= time:
 		get_tree().call_group(0, "shooter", "shoot")
+		if (get_tree().get_nodes_in_group("shooter").size() == 0):
+			create_enemy(shooter_scene)
 		shooter_attack_time = get_next_time(data, shooter_attack_number)
 	
 	if sniper_attack_time <= time:
 		get_tree().call_group(0, "sniper", "shoot")
+		if (get_tree().get_nodes_in_group("sniper").size() == 0):
+			create_enemy(sniper_scene)
 		sniper_attack_time = get_next_time(data, sniper_attack_number)
 	
 	if rocketeer_attack_time <= time:
 		get_tree().call_group(0, "rocketeer", "shoot")
+		if (get_tree().get_nodes_in_group("rocketeer").size() == 0):
+			create_enemy(rocketeer_scene)
 		rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 
 func get_next_time(data, number):
