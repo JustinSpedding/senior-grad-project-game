@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://menus/menu_background.jpg" type="Texture" id=1]
+[ext_resource path="res://fonts/hud_lable.fnt" type="BitmapFont" id=2]
+[ext_resource path="res://menus/StartGame.gd" type="Script" id=3]
+
+[node name="Control" type="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 600.0
+
+[node name="Background" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 600.0
+texture = ExtResource( 1 )
+stretch_mode = 0
+
+[node name="PlayGame" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 470.0
+margin/top = 270.0
+margin/right = 590.0
+margin/bottom = 320.0
+custom_fonts/font = ExtResource( 2 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Play"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="Title" type="Label" parent="."]
+
+rect/scale = Vector2( 2.5, 2.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 120.0
+margin/top = 80.0
+margin/right = 445.0
+margin/bottom = 106.0
+custom_fonts/font = ExtResource( 2 )
+text = "Definitely Not Star Shooter"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="pressed" from="PlayGame" to="PlayGame" method="_on_PlayGame_pressed"]
+
+

@@ -47,6 +47,7 @@ func _fixed_process(delta):
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
 	
+	
 	time += delta
 	if rambot_spawn_time <= time:
 		create_enemy(rambot_scene)

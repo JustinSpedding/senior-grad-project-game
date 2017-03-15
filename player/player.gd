@@ -26,6 +26,10 @@ func _fixed_process(delta):
 	health_text.clear()
 	health_text.add_text("Health: " + str(health))
 	
+	#end game if player runs out of health
+	if (health == 0):
+		get_tree().change_scene("res://menus/GameOver.tscn")
+	
 	# Move player
 	var acceleration = Vector3(0, 0, 0)
 	if (Input.is_action_pressed("ui_down")):
