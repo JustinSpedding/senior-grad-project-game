@@ -27,7 +27,7 @@ func _fixed_process(delta):
 	health_text.add_text("Health: " + str(health))
 	
 	#end game if player runs out of health
-	if (health == 0):
+	if (health <= 0):
 		get_tree().change_scene("res://menus/GameOver.tscn")
 	
 	# Move player
