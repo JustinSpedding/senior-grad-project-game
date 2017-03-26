@@ -43,10 +43,22 @@ func _ready():
 	get_node("SamplePlayer").play("cool")
 	set_fixed_process(true)
 
+var queued = false
+
 func _fixed_process(delta):
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
-	
+	if not queued:
+		queued = true
+		get_viewport().queue_screen_capture()
+	else:
+		var image = get_viewport().get_screen_capture()
+		if not image.empty():
+			queued = false
+			var path = "./ss/"
+			path += str(time)
+			path += ".png"
+			image.save_png(path)
 	time += delta
 	if rambot_spawn_time <= time:
 		create_enemy(rambot_scene)
