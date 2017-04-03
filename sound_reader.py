@@ -10,15 +10,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
-rate, data = file.read("anime.wav")
+rate, data = file.read("it_went.wav")
 framerate = 30
 barcount = 8
 channel = []
-#if len(data[0]) > 1:
-#    channel = (data[:, 0] + data[:, 1]) / 2
-#else:
-#    channel = data[:, 0] # this case doesn't work correctly yet
-channel = data   #use this if it's a single channel song and above doesn't work
+if len(data[0]) > 1:
+    channel = (data[:, 0] + data[:, 1]) / 2
+else:
+    channel = data[:, 0] # this case doesn't work correctly yet
+#channel = data   #use this if it's a single channel song and above doesn't work
 duration = int(len(data) / (rate / framerate))
 ys = []
 #xs = []
@@ -86,20 +86,20 @@ for i in range(duration // 6):
             finalYs[i * 6 + j] = 0
         elif finalYs[i * 6 + j] != 0:
             include[j] = False'''
-for i in range(duration // 15):
+for i in range(duration // 10):
     bars = []
-    for j in range(15):
-        bars.extend(finalYs[i * 15 + j])
+    for j in range(10):
+        bars.extend(finalYs[i * 10 + j])
     best = sorted(bars)[-1]
     if best < 0:
         best = 0
     place = True
-    for j in range(15):
-        for b in range(len(finalYs[i * 15 + j])):
-            if place and finalYs[i * 15 + j][b] == best:
+    for j in range(10):
+        for b in range(len(finalYs[i * 10 + j])):
+            if place and finalYs[i * 10 + j][b] == best:
                place = False
             else:
-                finalYs[i * 15 + j][b] = 0
+                finalYs[i * 10 + j][b] = 0
 finalYs.append([])
 def animate(i):
     ax.clear()

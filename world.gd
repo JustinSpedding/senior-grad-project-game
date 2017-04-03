@@ -71,7 +71,7 @@ func _ready():
 	sniper_attack_time = get_next_time(data, sniper_attack_number)
 	rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 	file.close()
-	get_node("SamplePlayer").play("anime")
+	get_node("SamplePlayer").play("it_went")
 	set_fixed_process(true)
 
 var queued = false
@@ -128,7 +128,7 @@ func _fixed_process(delta):
 	if shooter_attack_time <= time:
 		get_tree().call_group(0, "shooter", "shoot")
 		print("shooter shoot")
-		if (get_tree().get_nodes_in_group("shooter").size() < 3):
+		if (get_tree().get_nodes_in_group("shooter").size() < 5):
 			create_enemy(shooter_scene)
 			print("shooter spawn")
 		shooter_attack_time = get_next_time(data, shooter_attack_number)
@@ -144,7 +144,7 @@ func _fixed_process(delta):
 	if rocketeer_attack_time <= time:
 		get_tree().call_group(0, "rocketeer", "shoot")
 		print("rocketeer shoot")
-		if (get_tree().get_nodes_in_group("rocketeer").size() < 2):
+		if (get_tree().get_nodes_in_group("rocketeer").size() < 3):
 			create_enemy(rocketeer_scene)
 			print("rocketeer spawn")
 		rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
