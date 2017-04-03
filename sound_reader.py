@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
-rate, data = file.read("it_went.wav")
+rate, data = file.read("yodel.wav")
 framerate = 30
 barcount = 8
 channel = []
@@ -86,20 +86,21 @@ for i in range(duration // 6):
             finalYs[i * 6 + j] = 0
         elif finalYs[i * 6 + j] != 0:
             include[j] = False'''
-for i in range(duration // 10):
+rate = 15
+for i in range(duration // rate):
     bars = []
-    for j in range(10):
-        bars.extend(finalYs[i * 10 + j])
+    for j in range(rate):
+        bars.extend(finalYs[i * rate + j])
     best = sorted(bars)[-1]
     if best < 0:
         best = 0
     place = True
-    for j in range(10):
-        for b in range(len(finalYs[i * 10 + j])):
-            if place and finalYs[i * 10 + j][b] == best:
+    for j in range(rate):
+        for b in range(len(finalYs[i * rate + j])):
+            if place and finalYs[i * rate + j][b] == best:
                place = False
             else:
-                finalYs[i * 10 + j][b] = 0
+                finalYs[i * rate + j][b] = 0
 finalYs.append([])
 def animate(i):
     ax.clear()
