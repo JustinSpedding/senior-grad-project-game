@@ -10,4 +10,6 @@ script/script = ExtResource( 1 )
 
 [node name="bullet" parent="." instance=ExtResource( 2 )]
 
+transform/local = Transform( 40, 0, 0, 0, 40, 0, 0, 0, 60, 0, 0, 0 )
+
 
