@@ -92,61 +92,47 @@ func _fixed_process(delta):
 	#		image.save_png(path)
 	time += delta
 	if rambot_spawn_time <= time:
-		print("rambot spawn")
 		create_enemy(rambot_scene)
 		rambot_spawn_time = get_next_time(data, rambot_spawn_number)
 	
 	if kamikaze_spawn_time <= time:
-		print("kami spawn")
 		create_enemy(kamikaze_scene)
 		kamikaze_spawn_time = get_next_time(data, kamikaze_spawn_number)
 	
 	if shooter_spawn_time <= time:
 		create_enemy(shooter_scene)
-		print("shooter spawn")
 		if get_tree().get_nodes_in_group("shooter").size() > 5:
-			print("shooter shoot")
 			get_tree().call_group(0, "shooter", "shoot")
 		shooter_spawn_time = get_next_time(data, shooter_spawn_number)
 	
 	if sniper_spawn_time <= time:
 		create_enemy(sniper_scene)
-		print("sniper spawn")
 		if get_tree().get_nodes_in_group("sniper").size() > 5:
 			get_tree().call_group(0, "sniper", "shoot")
-			print("sniper shoot")
 		sniper_spawn_time = get_next_time(data, sniper_spawn_number)
 	
 	if rocketeer_spawn_time <= time:
 		create_enemy(rocketeer_scene)
-		print("rocket spawn")
 		if get_tree().get_nodes_in_group("rockeer").size() > 5:
 			get_tree().call_group(0, "rocketeer", "shoot")
-			print("rocket shoot")
 		rocketeer_spawn_time = get_next_time(data, rocketeer_spawn_number)
 	
 	if shooter_attack_time <= time:
 		get_tree().call_group(0, "shooter", "shoot")
-		print("shooter shoot")
 		if (get_tree().get_nodes_in_group("shooter").size() < 5):
 			create_enemy(shooter_scene)
-			print("shooter spawn")
 		shooter_attack_time = get_next_time(data, shooter_attack_number)
 	
 	if sniper_attack_time <= time:
 		get_tree().call_group(0, "sniper", "shoot")
-		print("sniper shoot")
 		if (get_tree().get_nodes_in_group("sniper").size() == 0):
 			create_enemy(sniper_scene)
-			print("sniper spawn")
 		sniper_attack_time = get_next_time(data, sniper_attack_number)
 	
 	if rocketeer_attack_time <= time:
 		get_tree().call_group(0, "rocketeer", "shoot")
-		print("rocketeer shoot")
 		if (get_tree().get_nodes_in_group("rocketeer").size() < 3):
 			create_enemy(rocketeer_scene)
-			print("rocketeer spawn")
 		rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 
 func get_next_time(data, number):
