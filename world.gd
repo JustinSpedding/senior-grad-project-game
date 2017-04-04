@@ -147,5 +147,5 @@ func create_enemy(enemy_scene):
 	var player = player_scene.get_node("player")
 	var enemy = enemy_scene.instance()
 	enemy.target = player
-	enemy.translate(Vector3(0, 0, -100))
+	enemy.translate(Vector3(rand_range(-40,40), rand_range(-40,30), -100))
 	player_scene.add_child(enemy)
