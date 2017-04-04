@@ -86,7 +86,6 @@ func get_target():
 	
 	# Return first hit if any
 	if (hit.size() != 0):
-		print("has target")
 		return weakref(hit.collider)
 	else:
 		return null

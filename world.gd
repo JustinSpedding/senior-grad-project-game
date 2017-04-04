@@ -60,7 +60,6 @@ func _ready():
 	kamikaze_spawn_time = rel_frequency[5]
 	sniper_spawn_time = rel_frequency[6]
 	sniper_attack_time = rel_frequency[7]
-	print(shooter_attack_number)
 	
 	rambot_spawn_time = get_next_time(data, rambot_spawn_number)
 	kamikaze_spawn_time = get_next_time(data, kamikaze_spawn_number)
