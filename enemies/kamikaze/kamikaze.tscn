@@ -1,14 +1,21 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://enemies/kamikaze/kamikaze.gd" type="Script" id=1]
 [ext_resource path="res://enemies/kamikaze/kamikaze-model.scn" type="PackedScene" id=2]
 
-[node name="kamikaze" type="KinematicBody" groups=[ "kamikaze", "damageable", "enemy" ]]
+[sub_resource type="BoxShape" id=1]
+
+extents = Vector3( 1, 1, 1 )
+
+[node name="kamikaze" type="KinematicBody" groups=[ "kamikaze", "enemy", "damageable" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
-shape_count = 0
+shape_count = 1
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, -0.0689427, 0 )
+shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
 collide_with/static = true
@@ -21,5 +28,13 @@ script/script = ExtResource( 1 )
 [node name="kamikaze_model" parent="." instance=ExtResource( 2 )]
 
 transform/local = Transform( 7, 0, 0, 0, 7, 0, 0, 0, 7, 0.24, 0, 0 )
+
+[node name="kamikaze_hitbox" type="CollisionShape" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, -0.0689427, 0 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
 
 

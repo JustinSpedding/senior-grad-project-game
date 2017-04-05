@@ -3,9 +3,8 @@ extends KinematicBody
 
 var bullet_scene = load("res://misc/bullet/bullet.tscn")
 
-const max_speed = 10
-const friction = .5
-const acceleration_magnitude = 1
+const crosshair_speed = 1000
+const player_speed = 2
 const x_bound = 3
 const y_bound = 1.5
 
@@ -14,55 +13,51 @@ const primary_fire_bullet_speed = 20
 const primary_fire_damage = 200
 
 var health = 5000
-var speed_vector = Vector3(0, 0, 0)
+var speed_vector = Vector2(0, 0)
 var primary_fire_time_remaining = 0
 
 func _ready():
 	set_fixed_process(true)
+	set_process_input(true)
 
 func _fixed_process(delta):
-	# Set health test in HUD
+	# Set health text in HUD
 	var health_text = get_tree().get_root().get_node("world").get_node("hud").get_node("health_text")
 	health_text.clear()
 	health_text.add_text("Health: " + str(health))
 	
-	#end game if player runs out of health
+	# End game if player runs out of health
 	if (health <= 0):
 		get_tree().change_scene("res://menus/GameOver.tscn")
 	
-	# Move player
-	var acceleration = Vector3(0, 0, 0)
+	# Move crosshair
+	var crosshair = get_parent().get_node("crosshair")
+	var velocity = Vector2(0, 0)
 	if (Input.is_action_pressed("ui_down")):
-		acceleration -= Vector3(0, 1, 0)
+		velocity += Vector2(0, 1)
 	if (Input.is_action_pressed("ui_up")):
-		acceleration += Vector3(0, 1, 0)
+		velocity -= Vector2(0, 1)
 	if (Input.is_action_pressed("ui_left")):
-		acceleration -= Vector3(1, 0, 0)
+		velocity -= Vector2(1, 0)
 	if (Input.is_action_pressed("ui_right")):
-		acceleration += Vector3(1, 0, 0)
-	acceleration = acceleration.normalized() * acceleration_magnitude
-	var friction_vector = speed_vector.normalized() * friction
-	speed_vector += acceleration - friction_vector
-	if (speed_vector.length() > max_speed):
-		speed_vector = speed_vector.normalized() * max_speed
-	if (abs(speed_vector.x) < friction):
-		speed_vector.x = 0
-	if (abs(speed_vector.y) < friction):
-		speed_vector.y = 0
-	translate(speed_vector * delta)
+		velocity += Vector2(1, 0)
+	crosshair.set_global_pos(crosshair.get_global_pos() + (velocity.normalized()*crosshair_speed*delta))
 	
-	# Do not let player leave observable area
-	var new_location = get_global_transform().origin
-	if (new_location.x > x_bound):
-		new_location.x = x_bound
-	if (new_location.x < -x_bound):
-		new_location.x = -x_bound
-	if (new_location.y > y_bound):
-		new_location.y = y_bound
-	if (new_location.y < -y_bound):
-		new_location.y = -y_bound
-	new_location.z = 0
-	set_translation(new_location)
+	# Keep crosshair within bounds
+	if (crosshair.get_global_pos().x > 907):
+		crosshair.set_global_pos(Vector2(907, crosshair.get_global_pos().y))
+	if (crosshair.get_global_pos().x < -117):
+		crosshair.set_global_pos(Vector2(-117, crosshair.get_global_pos().y))
+	if (crosshair.get_global_pos().y > 483):
+		crosshair.set_global_pos(Vector2(crosshair.get_global_pos().x, 483))
+	if (crosshair.get_global_pos().y < -117):
+		crosshair.set_global_pos(Vector2(crosshair.get_global_pos().x, -117))
+	
+	# Move player closer to crosshair
+	var player_location = get_transform().origin
+	player_location.z = 0
+	var target = Vector3((crosshair.get_global_pos().x-395)*0.006, (crosshair.get_global_pos().y-183)*-0.006, 0)
+	translate((target - player_location) * player_speed * delta)
 	
 	# Fire weapons
 	primary_fire_time_remaining -= delta
@@ -72,5 +67,29 @@ func _fixed_process(delta):
 		bullet.speed = primary_fire_bullet_speed
 		bullet.damage = primary_fire_damage
 		bullet.target_group = "damageable"
+		bullet.target_ref = get_target()
 		get_parent().get_parent().add_child(bullet)
 		bullet.set_transform(get_global_transform())
+
+func get_target():
+	# Get ray location and direction
+	var camera = get_parent().get_node("camera")
+	var aim_position = get_parent().get_node("crosshair").get_global_pos() + Vector2(117,117)
+	var ray_origin = camera.project_ray_origin(aim_position)
+	var ray_direction = camera.project_ray_normal(aim_position)
+
+	# Cast ray
+	var from = ray_origin
+	var to = ray_origin + ray_direction * 1000.0
+	var space_state = get_world().get_direct_space_state()
+	var hit = space_state.intersect_ray(from, to, [get_parent().get_node("player")])
+	
+	# Return first hit if any
+	if (hit.size() != 0):
+		return weakref(hit.collider)
+	else:
+		return null
+
+func _input(event):
+	if event.type == InputEvent.MOUSE_MOTION:
+		get_parent().get_node("crosshair").set_global_pos(get_viewport().get_mouse_pos() - Vector2(117,117))
