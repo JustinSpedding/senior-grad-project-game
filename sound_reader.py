@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
-rate, data = file.read("yodel.wav")
+rate, data = file.read("cool.wav")
 framerate = 30
 barcount = 8
 channel = []
@@ -86,7 +86,7 @@ for i in range(duration // 6):
             finalYs[i * 6 + j] = 0
         elif finalYs[i * 6 + j] != 0:
             include[j] = False'''
-rate = 15
+rate = 10
 for i in range(duration // rate):
     bars = []
     for j in range(rate):

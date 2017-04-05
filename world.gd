@@ -71,7 +71,7 @@ func _ready():
 	sniper_attack_time = get_next_time(data, sniper_attack_number)
 	rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 	file.close()
-	get_node("SamplePlayer").play("yodel")
+	get_node("SamplePlayer").play("cool")
 	set_fixed_process(true)
 
 var queued = false
