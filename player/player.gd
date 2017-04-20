@@ -13,6 +13,7 @@ const y_lower_bound = -15
 const primary_fire_cooldown = 0.01
 const primary_fire_bullet_speed = 40
 const primary_fire_damage = 100
+const primary_fire_spawn_offset = Vector3(0.4, 0, 0)
 
 var health = 5000
 var speed_vector = Vector2(0, 0)
@@ -76,6 +77,8 @@ func _fixed_process(delta):
 		bullet.target_ref = get_target()
 		get_parent().get_parent().add_child(bullet)
 		bullet.set_transform(get_global_transform())
+		bullet.translate(primary_fire_spawn_offset)
+		primary_fire_spawn_offset *= -1
 		bullet.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
 
 func get_target():
