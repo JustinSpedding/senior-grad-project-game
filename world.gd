@@ -71,6 +71,7 @@ func _ready():
 	rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
 	file.close()
 	get_node("SamplePlayer").play("yodel")
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	set_fixed_process(true)
 
 var queued = false
