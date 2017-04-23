@@ -58,11 +58,12 @@ func wander(delta):
 
 func shoot():
 	var bullet = bullet_scene.instance()
-	bullet.speed = -bullet_speed
+	bullet.speed = bullet_speed
 	bullet.damage = bullet_damage
 	bullet.target_group = "player"
 	get_parent().get_parent().add_child(bullet)
 	bullet.set_transform(get_global_transform())
+	bullet.look_at(get_global_transform().origin + Vector3(0,0,1), Vector3(0,1,0))
 
 func is_close_enough(point1, point2, distance):
 	var diff = (point1 - point2).abs()
