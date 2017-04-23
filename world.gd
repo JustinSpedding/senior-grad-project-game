@@ -83,18 +83,33 @@ var queued = false
 func _fixed_process(delta):
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
-	#if not queued:
-	#	queued = true
-	#	get_viewport().queue_screen_capture()
-	#else:
-	#	var image = get_viewport().get_screen_capture()
-	#	if not image.empty():
-	#		queued = false
-	#		var path = "./ss/"
-	#		path += str(time)
-	#		path += ".png"
-	#		image.save_png(path)
 	time += delta
+	
+	if not queued:
+		queued = true
+		get_viewport().queue_screen_capture()
+	else:
+		var image = get_viewport().get_screen_capture()
+		if not image.empty():
+			queued = false
+			var path = "./ss/"
+			path += str(time)
+			path += ".png"
+			image.save_png(path)
+			var path = "./loc/"
+			path += str(time)
+			path += ".txt"
+			var position = player_scene.get_node("player").get_translation()
+			var file = File.new()
+			file.open(path, file.WRITE)
+			file.store_string(str(position.x))
+			file.store_string(" ")
+			file.store_string(str(position.y))
+			file.store_string(" ")
+			file.store_string(str(position.z))
+			file.close()
+			
+	
 	if rambot_spawn_time <= time:
 		create_enemy(rambot_scene)
 		rambot_spawn_time = get_next_time(data, rambot_spawn_number)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://world_env.tres" type="Environment" id=1]
 [ext_resource path="res://world.gd" type="Script" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://it_went.wav" type="Sample" id=8]
 [ext_resource path="res://sad.wav" type="Sample" id=9]
 [ext_resource path="res://stamp.wav" type="Sample" id=10]
-[ext_resource path="res://yodel.wav" type="Sample" id=11]
 
 [sub_resource type="Animation" id=1]
 
@@ -21,12 +20,6 @@ step = 0.1
 
 [sub_resource type="SampleLibrary" id=2]
 
-samples/anime = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
-samples/cool = { "db":0.0, "pitch":1.0, "sample":ExtResource( 7 ) }
-samples/it_went = { "db":0.0, "pitch":1.0, "sample":ExtResource( 8 ) }
-samples/sad = { "db":0.0, "pitch":1.0, "sample":ExtResource( 9 ) }
-samples/stamp = { "db":0.0, "pitch":1.0, "sample":ExtResource( 10 ) }
-samples/yodel = { "db":0.0, "pitch":1.0, "sample":ExtResource( 11 ) }
 samples/anime = {
 "db": 0.0,
 "pitch": 1.0,
@@ -50,6 +43,12 @@ samples/sad = {
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 9 )
+}
+samples/stamp = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 10 )
 }
 samples/yodel = {
 "db": 0.0,
