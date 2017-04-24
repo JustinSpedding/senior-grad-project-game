@@ -4,11 +4,16 @@ extends KinematicBody
 var bullet_scene = load("res://misc/bullet/bullet.tscn")
 
 const crosshair_speed = 50
-const player_speed = 2
-const x_upper_bound = 15
-const x_lower_bound = -15
-const y_upper_bound = 3
-const y_lower_bound = -15
+const crosshair_x_upper_bound = 15
+const crosshair_x_lower_bound = -15
+const crosshair_y_upper_bound = 3
+const crosshair_y_lower_bound = -15
+
+const player_speed = 5
+const player_x_upper_bound = 3
+const player_x_lower_bound = -3
+const player_y_upper_bound = 2
+const player_y_lower_bound = -2
 
 const primary_fire_cooldown = 0.01
 const primary_fire_bullet_speed = 40
@@ -36,35 +41,54 @@ func _fixed_process(delta):
 	
 	# Move crosshair
 	var crosshair = get_parent().get_node("crosshair")
-	var velocity = Vector3(0, 0, 0)
-	if (Input.is_action_pressed("ui_down")):
-		velocity -= Vector3(0, 1, 0)
-	if (Input.is_action_pressed("ui_up")):
-		velocity += Vector3(0, 1, 0)
-	if (Input.is_action_pressed("ui_left")):
-		velocity -= Vector3(1, 0, 0)
-	if (Input.is_action_pressed("ui_right")):
-		velocity += Vector3(1, 0, 0)
-	velocity = velocity.normalized()*crosshair_speed*delta
-	crosshair.translate(velocity)
+	var crosshair_velocity = Vector3(0, 0, 0)
+	if (Input.is_action_pressed("aim_down")):
+		crosshair_velocity -= Vector3(0, 1, 0)
+	if (Input.is_action_pressed("aim_up")):
+		crosshair_velocity += Vector3(0, 1, 0)
+	if (Input.is_action_pressed("aim_left")):
+		crosshair_velocity -= Vector3(1, 0, 0)
+	if (Input.is_action_pressed("aim_right")):
+		crosshair_velocity += Vector3(1, 0, 0)
+	crosshair_velocity = crosshair_velocity.normalized()*crosshair_speed*delta
+	crosshair.translate(crosshair_velocity)
 	
 	# Keep crosshair within bounds
-	var new_location = crosshair.get_translation()
-	if (new_location.x > x_upper_bound):
-		new_location.x = x_upper_bound
-	if (new_location.x < x_lower_bound):
-		new_location.x = x_lower_bound
-	if (new_location.y > y_upper_bound):
-		new_location.y = y_upper_bound
-	if (new_location.y < y_lower_bound):
-		new_location.y = y_lower_bound
-	crosshair.set_translation(new_location)
+	var crosshair_location = crosshair.get_translation()
+	if (crosshair_location.x > crosshair_x_upper_bound):
+		crosshair_location.x = crosshair_x_upper_bound
+	if (crosshair_location.x < crosshair_x_lower_bound):
+		crosshair_location.x = crosshair_x_lower_bound
+	if (crosshair_location.y > crosshair_y_upper_bound):
+		crosshair_location.y = crosshair_y_upper_bound
+	if (crosshair_location.y < crosshair_y_lower_bound):
+		crosshair_location.y = crosshair_y_lower_bound
+	crosshair.set_translation(crosshair_location)
 	
-	# Move player closer to crosshair
-	var player_location = get_transform().origin
-	player_location.z = 0
-	var target = Vector3((new_location.x)*0.2, (new_location.y+5)*0.2, 0)
-	translate((target - player_location) * player_speed * delta)
+	# Move player
+	var player_velocity = Vector3(0, 0, 0)
+	if (Input.is_action_pressed("move_down")):
+		player_velocity -= Vector3(0, 1, 0)
+	if (Input.is_action_pressed("move_up")):
+		player_velocity += Vector3(0, 1, 0)
+	if (Input.is_action_pressed("move_left")):
+		player_velocity -= Vector3(1, 0, 0)
+	if (Input.is_action_pressed("move_right")):
+		player_velocity += Vector3(1, 0, 0)
+	player_velocity = player_velocity.normalized()*player_speed*delta
+	translate(player_velocity)
+	
+	# Keep player within bounds
+	var player_location = get_translation()
+	if (player_location.x > player_x_upper_bound):
+		player_location.x = player_x_upper_bound
+	if (player_location.x < player_x_lower_bound):
+		player_location.x = player_x_lower_bound
+	if (player_location.y > player_y_upper_bound):
+		player_location.y = player_y_upper_bound
+	if (player_location.y < player_y_lower_bound):
+		player_location.y = player_y_lower_bound
+	set_translation(player_location)
 	
 	# Fire weapons
 	primary_fire_time_remaining -= delta
@@ -83,7 +107,8 @@ func _fixed_process(delta):
 
 func get_target():
 	# Cast ray
-	var hit = get_world().get_direct_space_state().intersect_ray(get_translation(), get_parent().get_node("crosshair").get_translation(), [get_parent().get_node("player")])
+	var crosshair_translation = get_parent().get_node("crosshair").get_translation()
+	var hit = get_world().get_direct_space_state().intersect_ray(crosshair_translation + Vector3(0,0,1000), crosshair_translation, [get_parent().get_node("player")])
 	
 	# Return first hit if any
 	if (hit.size() != 0):
