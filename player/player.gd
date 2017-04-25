@@ -106,9 +106,12 @@ func _fixed_process(delta):
 		bullet.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
 
 func get_target():
-	# Cast ray
-	var crosshair_translation = get_parent().get_node("crosshair").get_translation()
-	var hit = get_world().get_direct_space_state().intersect_ray(crosshair_translation + Vector3(0,0,1000), crosshair_translation, [get_parent().get_node("player")])
+	# Cast a ray
+	var camera = get_parent().get_node("camera")
+	var crosshair_position = camera.unproject_position(get_parent().get_node("crosshair").get_global_transform().origin)
+	var from = camera.project_ray_origin(crosshair_position)
+	var to = from + camera.project_ray_normal(crosshair_position) * 1000.0
+	var hit = get_world().get_direct_space_state().intersect_ray(from, to, [get_parent().get_node("player")])
 	
 	# Return first hit if any
 	if (hit.size() != 0):
