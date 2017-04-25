@@ -63,7 +63,7 @@ func shoot():
 	bullet.target_group = "player"
 	get_parent().get_parent().add_child(bullet)
 	bullet.set_transform(get_global_transform())
-	bullet.look_at(target.get_global_transform().origin)
+	bullet.look_at(target.get_global_transform().origin, Vector3(0,1,0))
 
 func is_close_enough(point1, point2, distance):
 	var diff = (point1 - point2).abs()
