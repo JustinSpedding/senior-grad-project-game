@@ -95,14 +95,12 @@ func _fixed_process(delta):
 			var path = "./loc/"
 			path += str(time)
 			path += ".txt"
-			var position = player_scene.get_node("player").get_translation()
+			var position = player_scene.get_node("camera").unproject_position(player_scene.get_node("player").get_global_transform().origin)
 			var file = File.new()
 			file.open(path, file.WRITE)
 			file.store_string(str(position.x))
 			file.store_string(" ")
 			file.store_string(str(position.y))
-			file.store_string(" ")
-			file.store_string(str(position.z))
 			file.close()
 			
 	
