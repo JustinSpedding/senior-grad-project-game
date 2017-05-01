@@ -14,7 +14,7 @@ const attack_damage = 100
 const charge_time = 0.5
 
 var target
-var health = 1000
+var health = 2000
 var state = STATE.Homing
 var charge_time_remaining
 

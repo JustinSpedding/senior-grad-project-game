@@ -1,7 +1,7 @@
 
 extends KinematicBody
 
-var bullet_scene = load("res://misc/bullet/bullet.tscn")
+var projectile_scene = load("res://misc/projectiles/bullet.tscn")
 
 const crosshair_speed = 50
 const crosshair_x_upper_bound = 15
@@ -16,7 +16,7 @@ const player_y_upper_bound = 2
 const player_y_lower_bound = -2
 
 const primary_fire_cooldown = 0.01
-const primary_fire_bullet_speed = 40
+const primary_fire_speed = 40
 const primary_fire_damage = 100
 const primary_fire_spawn_offset = Vector3(0.4, 0, 0)
 
@@ -94,16 +94,16 @@ func _fixed_process(delta):
 	primary_fire_time_remaining -= delta
 	if (Input.is_action_pressed("player_fire_primary") && primary_fire_time_remaining <= 0):
 		primary_fire_time_remaining = primary_fire_cooldown
-		var bullet = bullet_scene.instance()
-		bullet.speed = primary_fire_bullet_speed
-		bullet.damage = primary_fire_damage
-		bullet.target_group = "damageable"
-		bullet.target_ref = get_target()
-		get_parent().get_parent().add_child(bullet)
-		bullet.set_transform(get_global_transform())
-		bullet.translate(primary_fire_spawn_offset)
+		var projectile = projectile_scene.instance()
+		projectile.speed = primary_fire_speed
+		projectile.damage = primary_fire_damage
+		projectile.target_group = "damageable"
+		projectile.target_ref = get_target()
+		get_parent().get_parent().add_child(projectile)
+		projectile.set_transform(get_global_transform())
+		projectile.translate(primary_fire_spawn_offset)
 		primary_fire_spawn_offset *= -1
-		bullet.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
+		projectile.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
 
 func get_target():
 	# Cast a ray

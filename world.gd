@@ -55,7 +55,7 @@ func _ready():
 	shooter_attack_number = rel_frequency[0]
 	rocketeer_attack_number = rel_frequency[1]
 	shooter_spawn_number = rel_frequency[2]
-	rocketeer_attack_number = rel_frequency[3]
+	rocketeer_spawn_number = rel_frequency[3]
 	rambot_spawn_number = rel_frequency[4]
 	kamikaze_spawn_time = rel_frequency[5]
 	sniper_spawn_time = rel_frequency[6]
