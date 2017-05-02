@@ -4,7 +4,7 @@ extends Spatial
 var rambot_scene = load("res://enemies/rambot9001/rambot9001.tscn")
 var shooter_scene = load("res://enemies/shooter/shooter.tscn")
 var kamikaze_scene = load("res://enemies/kamikaze/kamikaze.tscn")
-var sniper_scene = load("res://enemies/sniper/Sniper.tscn")
+var sniper_scene = load("res://enemies/sniper/sniper.tscn")
 var rocketeer_scene = load("res://enemies/rocketeer/rocketeer.tscn")
 
 var rambot_spawn_number = "0"

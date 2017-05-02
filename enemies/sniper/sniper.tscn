@@ -7,14 +7,18 @@
 
 extents = Vector3( 1, 1, 1 )
 
-[node name="Sniper" type="KinematicBody" groups=[ "enemy", "sniper", "damageable" ]]
+[node name="sniper" type="KinematicBody" groups=[
+"sniper",
+"enemy",
+"damageable",
+]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.0496563, 0.125397, 0.337028 )
+shapes/0/transform = Transform( 0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0.1, 0.1 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -25,14 +29,14 @@ collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
 
-[node name="sniper_model" parent="." instance=ExtResource( 2 )]
+[node name="model" parent="." instance=ExtResource( 2 )]
 
 transform/local = Transform( -3.49691e-07, 0, 8, 0, 8, 0, -8, 0, -3.49691e-07, 0, 0, 0 )
 
-[node name="sniper_hitbox" type="CollisionShape" parent="."]
+[node name="hitbox" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.0496563, 0.125397, 0.337028 )
+transform/local = Transform( 0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0.1, 0.1 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
