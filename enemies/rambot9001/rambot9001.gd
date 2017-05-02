@@ -1,5 +1,4 @@
-
-extends KinematicBody
+extends "res://enemies/enemy.gd"
 
 const STATE = {
 	Homing = 0,
@@ -23,7 +22,7 @@ func _ready():
 
 func _fixed_process(delta):
 	if health <= 0:
-		queue_free()
+		explode()
 	
 	if target != null:
 		if (state == STATE.Homing):
@@ -59,7 +58,3 @@ func attack(delta):
 	if is_close_enough(get_global_transform().origin, target.get_global_transform().origin, 0.5):
 		target.health -= attack_damage
 		state = STATE.Homing
-
-func is_close_enough(point1, point2, distance):
-	var diff = (point1 - point2).abs()
-	return diff.x <= distance && diff.y <= distance && diff.z <= distance

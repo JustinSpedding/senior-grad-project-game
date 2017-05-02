@@ -1,5 +1,4 @@
-
-extends KinematicBody
+extends "res://enemies/enemy.gd"
 
 const homing_speed_forward = 20
 const homing_speed_sideways = 5
@@ -13,7 +12,8 @@ func _ready():
 	
 func _fixed_process(delta):
 	if health <= 0:
-		queue_free()
+		explode()
+
 	if target != null:
 		home(delta)
 
@@ -31,7 +31,3 @@ func home(delta):
 	# Die if already passed player
 	if target.get_global_transform().origin.z <= get_global_transform().origin.z - 10:
 		queue_free()
-
-func is_close_enough(point1, point2, distance):
-	var diff = (point1 - point2).abs()
-	return diff.x <= distance && diff.y <= distance && diff.z <= distance

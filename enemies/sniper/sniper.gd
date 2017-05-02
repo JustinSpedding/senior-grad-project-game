@@ -1,5 +1,4 @@
-
-extends KinematicBody
+extends "res://enemies/enemy.gd"
 
 var projectile_scene = load("res://misc/projectiles/bullet.tscn")
 
@@ -27,7 +26,7 @@ func _ready():
 
 func _fixed_process(delta):
 	if health <= 0:
-		queue_free()
+		explode()
 	
 	if target != null:
 		if (state == STATE.Homing):
@@ -64,7 +63,3 @@ func shoot():
 	get_parent().get_parent().add_child(projectile)
 	projectile.set_transform(get_global_transform())
 	projectile.look_at(target.get_global_transform().origin, Vector3(0,1,0))
-
-func is_close_enough(point1, point2, distance):
-	var diff = (point1 - point2).abs()
-	return diff.x <= distance && diff.y <= distance && diff.z <= distance
