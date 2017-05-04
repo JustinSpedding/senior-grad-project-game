@@ -1,14 +1,12 @@
 extends Camera
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
 func _ready():
 	set_fixed_process(true)
-	pass
-	
+
+export var look_at_player = false
 var queued = false
 var time = 0
+
 func _fixed_process(delta):
-	pass
+	if look_at_player:
+		look_at(get_parent().get_node("player").get_global_transform().origin, Vector3(0,1,0))

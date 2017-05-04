@@ -24,20 +24,42 @@ var health = 5000
 var speed_vector = Vector2(0, 0)
 var primary_fire_time_remaining = 0
 
+var game_ended = false
+
 func _ready():
 	set_fixed_process(true)
 	set_process_input(true)
 
 func _fixed_process(delta):
+	# If game already endes, do nothing
+	if game_ended:
+		return
+	
+	# End game if song ends
+	if !get_parent().get_parent().get_node("song").is_playing():
+		game_ended = true
+		set_translation(Vector3(0,0,0))
+		get_parent().get_node("end_animation").play("camera rotate")
+		get_parent().get_node("crosshair").set_hidden(true)
+		get_parent().get_node("return").set_hidden(false)
+		get_parent().get_node("win_text").set_hidden(false)
+		get_tree().call_group(0, "enemy", "explode")
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	# End game if player runs out of health
+	if health <= 0:
+		game_ended = true
+		get_parent().get_node("end_animation").play("zoom camera out")
+		get_parent().get_node("player_explosion").set_emitting(true)
+		get_parent().get_node("crosshair").set_hidden(true)
+		get_parent().get_node("return").set_hidden(false)
+		get_parent().get_node("gameover_text").set_hidden(false)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 	# Set health text in HUD
 	var health_text = get_tree().get_root().get_node("world").get_node("hud").get_node("health_text")
 	health_text.clear()
 	health_text.add_text("Health: " + str(health))
-	
-	# End game if player runs out of health
-	if (health <= 0):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().change_scene("res://menus/GameOver.tscn")
 	
 	# Move crosshair
 	var crosshair = get_parent().get_node("crosshair")

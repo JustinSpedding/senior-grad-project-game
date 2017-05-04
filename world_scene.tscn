@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://world_env.tres" type="Environment" id=1]
 [ext_resource path="res://world.gd" type="Script" id=2]
@@ -7,13 +7,6 @@
 [ext_resource path="res://misc/meteors/meteor1.scn" type="PackedScene" id=5]
 [ext_resource path="res://song.ogg" type="AudioStream" id=6]
 
-[sub_resource type="Animation" id=1]
-
-resource/name = "Move player scene"
-length = 12.0
-loop = true
-step = 0.1
-
 [node name="world" type="WorldEnvironment"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -21,17 +14,6 @@ environment = ExtResource( 1 )
 script/script = ExtResource( 2 )
 
 [node name="player_scene" parent="." instance=ExtResource( 3 )]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-"anims/Move box scene" = SubResource( 1 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = "Move box scene"
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 
@@ -123,7 +105,7 @@ transform/local = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, -5.76
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.92571, 0, -129.5 )
 
-[node name="StreamPlayer" type="StreamPlayer" parent="."]
+[node name="song" type="StreamPlayer" parent="."]
 
 stream/stream = ExtResource( 6 )
 stream/play = false

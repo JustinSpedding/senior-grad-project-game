@@ -34,6 +34,8 @@ var music_speed_max = 10.0
 var music_speed_step = 4.0
 var music_speed_decay = 10.0
 
+var take_screenshots = false
+
 func swap(list, i, j):
 	var temp = list[i]
 	list[i] = list[j]
@@ -84,32 +86,36 @@ func _ready():
 var queued = false
 
 func _fixed_process(delta):
+	if get_node("player_scene").get_node("player").game_ended:
+		return
+	
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
 	time += delta
 	music_speed -= music_speed_decay*delta
 	
-	if not queued:
-		queued = true
-		get_viewport().queue_screen_capture()
-	else:
-		var image = get_viewport().get_screen_capture()
-		if not image.empty():
-			queued = false
-			var path = "./ss/"
-			path += str(time)
-			path += ".png"
-			image.save_png(path)
-			var path = "./loc/"
-			path += str(time)
-			path += ".txt"
-			var position = player_scene.get_node("camera").unproject_position(player_scene.get_node("player").get_global_transform().origin)
-			var file = File.new()
-			file.open(path, file.WRITE)
-			file.store_string(str(position.x))
-			file.store_string(" ")
-			file.store_string(str(position.y))
-			file.close()
+	if take_screenshots:
+		if not queued:
+			queued = true
+			get_viewport().queue_screen_capture()
+		else:
+			var image = get_viewport().get_screen_capture()
+			if not image.empty():
+				queued = false
+				var path = "./ss/"
+				path += str(time)
+				path += ".png"
+				image.save_png(path)
+				var path = "./loc/"
+				path += str(time)
+				path += ".txt"
+				var position = player_scene.get_node("camera").unproject_position(player_scene.get_node("player").get_global_transform().origin)
+				var file = File.new()
+				file.open(path, file.WRITE)
+				file.store_string(str(position.x))
+				file.store_string(" ")
+				file.store_string(str(position.y))
+				file.close()
 	
 	if rambot_spawn_time <= time:
 		create_enemy(rambot_scene)
