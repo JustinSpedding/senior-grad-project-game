@@ -124,5 +124,5 @@ ani = animation.FuncAnimation(fig, animate, frames=duration, interval=framerate)
 plt.rcParams['animation.ffmpeg_path'] = './ffmpeg/bin/ffmpeg.exe'
 FFwriter = animation.FFMpegWriter(fps=framerate)
 print("saving file")
-ani.save('animation.mp4', writer = FFwriter)
+#ani.save('animation.mp4', writer = FFwriter)
 print("done writing")

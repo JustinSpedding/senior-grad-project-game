@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://player/camera.gd" type="Script" id=1]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://misc/hud/crosshair.png" type="Texture" id=3]
+[ext_resource path="res://fonts/hud_lable.fnt" type="BitmapFont" id=4]
+[ext_resource path="res://menus/return_to_start.gd" type="Script" id=5]
+[ext_resource path="res://misc/hud/gameover_text.png" type="Texture" id=6]
+[ext_resource path="res://misc/hud/win_text.png" type="Texture" id=7]
 
 [sub_resource type="FixedMaterial" id=1]
 
@@ -42,6 +46,86 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
+[sub_resource type="FixedMaterial" id=2]
+
+flags/visible = true
+flags/double_sided = false
+flags/invert_faces = false
+flags/unshaded = true
+flags/on_top = false
+flags/lightmap_on_uv2 = true
+flags/colarray_is_srgb = true
+params/blend_mode = 0
+params/depth_draw = 1
+params/line_width = 0.627451
+fixed_flags/use_alpha = false
+fixed_flags/use_color_array = false
+fixed_flags/use_point_size = false
+fixed_flags/discard_alpha = false
+fixed_flags/use_xy_normalmap = false
+params/diffuse = Color( 1, 1, 1, 1 )
+params/specular = Color( 0, 0, 0, 1 )
+params/emission = Color( 0, 0, 0, 1 )
+params/specular_exp = 40
+params/detail_mix = 1.0
+params/normal_depth = 1
+params/shader = 0
+params/shader_param = 0.5
+params/glow = 0
+params/point_size = 1.0
+uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+textures/diffuse_tc = 0
+textures/detail_tc = 0
+textures/specular_tc = 0
+textures/emission_tc = 0
+textures/specular_exp_tc = 0
+textures/glow_tc = 0
+textures/normal_tc = 0
+textures/shade_param_tc = 0
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "camera rotate"
+length = 8.0
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("camera:transform/translation")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 1, 2, 3, 4, 5, 6, 7, 8 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 1.15, 3.5 ), Vector3( 2.5, 1.15, 2.5 ), Vector3( 3.5, 1.15, 0 ), Vector3( 2.5, 1.15, -2.5 ), Vector3( 0, 1.15, -3.5 ), Vector3( -2.5, 1.15, -2.5 ), Vector3( -3.5, 1.15, 0 ), Vector3( -2.5, 1.15, 2.5 ), Vector3( 0, 1.15, 3.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("camera:look_at_player")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=4]
+
+length = 4.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("camera:transform/translation")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 4 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 1.15, 3.5 ), Vector3( 0, 4, 8 ) ]
+}
+
 [node name="Spatial" type="Spatial"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -49,7 +133,7 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 [node name="camera" type="Camera" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 0.957911, 0.287064, 0, -0.287064, 0.957911, -0.138625, 1.1396, 3.67049 )
+transform/local = Transform( 1, 0, 0, 0, 0.957911, 0.287064, 0, -0.287064, 0.957911, 0, 1.15, 3.5 )
 projection = 0
 fov = 60.0
 near = 0.1
@@ -61,6 +145,7 @@ environment = null
 h_offset = 0.0
 v_offset = 0.0
 script/script = ExtResource( 1 )
+look_at_player = false
 
 [node name="player" parent="." instance=ExtResource( 2 )]
 
@@ -82,5 +167,132 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
+
+[node name="player_explosion" type="Particles" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+material = SubResource( 2 )
+amount = 512
+emitting = false
+visibility = AABB( -4, -4, -4, 8, 8, 8 )
+emission_extents = Vector3( 0.1, 0.1, 0.1 )
+emission_base_velocity = Vector3( 0, 0, 0 )
+emission_points = Vector3Array(  )
+gravity_normal = Vector3( 0, -1, 0 )
+local_coords = false
+emit_timeout = 0.0
+vars/lifetime = 2.0
+vars/spread = 1.0
+vars/gravity = 0.0
+vars/linear_vel = 3.0
+vars/angular_vel = 0.0
+vars/linear_accel = 0.0
+vars/radial_accel = 0.0
+vars/tan_accel = 0.0
+vars/damping = 0.0
+vars/initial_size = 0.2
+vars/final_size = 0.0
+vars/initial_angle = 0.0
+vars/height_from_velocity = false
+vars/height = 1.0
+vars/height_speed_scale = 0.0
+rand/lifetime = 0.0
+rand/spread = 0.0
+rand/gravity = 0.0
+rand/linear_vel = 0.0
+rand/angular_vel = 0.0
+rand/linear_accel = 0.0
+rand/radial_accel = 0.0
+rand/tan_accel = 0.0
+rand/damping = 0.0
+rand/initial_size = 0.0
+rand/final_size = 0.0
+rand/initial_angle = 0.0
+rand/height = 0.0
+rand/height_speed_scale = 0.0
+color_phases/count = 0
+phase_0/pos = 0.0
+phase_0/color = Color( 1, 1, 1, 1 )
+phase_1/pos = 1.0
+phase_1/color = Color( 0, 0, 0, 1 )
+phase_2/pos = 1.0
+phase_2/color = Color( 0, 0, 0, 1 )
+phase_3/pos = 1.0
+phase_3/color = Color( 0, 0, 0, 1 )
+
+[node name="end_animation" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+"anims/camera rotate" = SubResource( 3 )
+"anims/zoom camera out" = SubResource( 4 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="return" type="Button" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 412.0
+margin/top = 450.0
+margin/right = 612.0
+margin/bottom = 500.0
+custom_fonts/font = ExtResource( 4 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Return to Menu"
+flat = false
+script/script = ExtResource( 5 )
+
+[node name="gameover_text" type="TextureFrame" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 179.0
+margin/top = 70.0
+margin/right = 865.0
+margin/bottom = 208.0
+texture = ExtResource( 6 )
+stretch_mode = 0
+
+[node name="win_text" type="TextureFrame" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 222.0
+margin/top = 97.0
+margin/right = 800.0
+margin/bottom = 249.0
+texture = ExtResource( 7 )
+stretch_mode = 0
+
+[connection signal="pressed" from="return" to="return" method="_on_return_pressed"]
 
 

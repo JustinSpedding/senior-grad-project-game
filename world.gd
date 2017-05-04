@@ -4,8 +4,9 @@ extends Spatial
 var rambot_scene = load("res://enemies/rambot9001/rambot9001.tscn")
 var shooter_scene = load("res://enemies/shooter/shooter.tscn")
 var kamikaze_scene = load("res://enemies/kamikaze/kamikaze.tscn")
-var sniper_scene = load("res://enemies/sniper/Sniper.tscn")
+var sniper_scene = load("res://enemies/sniper/sniper.tscn")
 var rocketeer_scene = load("res://enemies/rocketeer/rocketeer.tscn")
+var enemy_material = load("res://misc/materials/enemy_material.tres")
 
 var rambot_spawn_number = "0"
 var kamikaze_spawn_number = "1"
@@ -26,6 +27,14 @@ var sniper_attack_time = 0
 var rocketeer_spawn_time = 0
 var rocketeer_attack_time = 0
 var time = 0
+
+var music_speed = 0.0
+var music_speed_min = -10.0
+var music_speed_max = 10.0
+var music_speed_step = 4.0
+var music_speed_decay = 10.0
+
+var take_screenshots = false
 
 func swap(list, i, j):
 	var temp = list[i]
@@ -55,7 +64,7 @@ func _ready():
 	shooter_attack_number = rel_frequency[0]
 	rocketeer_attack_number = rel_frequency[1]
 	shooter_spawn_number = rel_frequency[2]
-	rocketeer_attack_number = rel_frequency[3]
+	rocketeer_spawn_number = rel_frequency[3]
 	rambot_spawn_number = rel_frequency[4]
 	kamikaze_spawn_time = rel_frequency[5]
 	sniper_spawn_time = rel_frequency[6]
@@ -77,76 +86,111 @@ func _ready():
 var queued = false
 
 func _fixed_process(delta):
+	if get_node("player_scene").get_node("player").game_ended:
+		return
+	
 	var player_scene = get_node("player_scene")
 	player_scene.translate(Vector3(0, 0, -delta))
 	time += delta
+	music_speed -= music_speed_decay*delta
 	
-	if not queued:
-		queued = true
-		get_viewport().queue_screen_capture()
-	else:
-		var image = get_viewport().get_screen_capture()
-		if not image.empty():
-			queued = false
-			var path = "./ss/"
-			path += str(time)
-			path += ".png"
-			image.save_png(path)
-			var path = "./loc/"
-			path += str(time)
-			path += ".txt"
-			var position = player_scene.get_node("camera").unproject_position(player_scene.get_node("player").get_global_transform().origin)
-			var file = File.new()
-			file.open(path, file.WRITE)
-			file.store_string(str(position.x))
-			file.store_string(" ")
-			file.store_string(str(position.y))
-			file.close()
-			
+	if take_screenshots:
+		if not queued:
+			queued = true
+			get_viewport().queue_screen_capture()
+		else:
+			var image = get_viewport().get_screen_capture()
+			if not image.empty():
+				queued = false
+				var path = "./ss/"
+				path += str(time)
+				path += ".png"
+				image.save_png(path)
+				var path = "./loc/"
+				path += str(time)
+				path += ".txt"
+				var position = player_scene.get_node("camera").unproject_position(player_scene.get_node("player").get_global_transform().origin)
+				var file = File.new()
+				file.open(path, file.WRITE)
+				file.store_string(str(position.x))
+				file.store_string(" ")
+				file.store_string(str(position.y))
+				file.close()
 	
 	if rambot_spawn_time <= time:
 		create_enemy(rambot_scene)
 		rambot_spawn_time = get_next_time(data, rambot_spawn_number)
+		music_speed += music_speed_step
 	
 	if kamikaze_spawn_time <= time:
 		create_enemy(kamikaze_scene)
 		kamikaze_spawn_time = get_next_time(data, kamikaze_spawn_number)
+		music_speed += music_speed_step
 	
 	if shooter_spawn_time <= time:
 		create_enemy(shooter_scene)
 		if get_tree().get_nodes_in_group("shooter").size() > 5:
 			get_tree().call_group(0, "shooter", "shoot")
 		shooter_spawn_time = get_next_time(data, shooter_spawn_number)
+		music_speed += music_speed_step
 	
 	if sniper_spawn_time <= time:
 		create_enemy(sniper_scene)
 		if get_tree().get_nodes_in_group("sniper").size() > 5:
 			get_tree().call_group(0, "sniper", "shoot")
 		sniper_spawn_time = get_next_time(data, sniper_spawn_number)
+		music_speed += music_speed_step
 	
 	if rocketeer_spawn_time <= time:
 		create_enemy(rocketeer_scene)
 		if get_tree().get_nodes_in_group("rockeer").size() > 5:
 			get_tree().call_group(0, "rocketeer", "shoot")
 		rocketeer_spawn_time = get_next_time(data, rocketeer_spawn_number)
+		music_speed += music_speed_step
 	
 	if shooter_attack_time <= time:
 		get_tree().call_group(0, "shooter", "shoot")
 		if (get_tree().get_nodes_in_group("shooter").size() < 5):
 			create_enemy(shooter_scene)
 		shooter_attack_time = get_next_time(data, shooter_attack_number)
+		music_speed += music_speed_step
 	
 	if sniper_attack_time <= time:
 		get_tree().call_group(0, "sniper", "shoot")
 		if (get_tree().get_nodes_in_group("sniper").size() == 0):
 			create_enemy(sniper_scene)
 		sniper_attack_time = get_next_time(data, sniper_attack_number)
+		music_speed += music_speed_step
 	
 	if rocketeer_attack_time <= time:
 		get_tree().call_group(0, "rocketeer", "shoot")
 		if (get_tree().get_nodes_in_group("rocketeer").size() < 3):
 			create_enemy(rocketeer_scene)
 		rocketeer_attack_time = get_next_time(data, rocketeer_attack_number)
+		music_speed += music_speed_step
+	
+	if music_speed < music_speed_min:
+		music_speed = music_speed_min
+	if music_speed > music_speed_max:
+		music_speed = music_speed_max
+	
+	var speed_ratio = music_speed/music_speed_max
+	enemy_material.set_parameter(enemy_material.PARAM_DIFFUSE, Color(red(speed_ratio), green(speed_ratio), blue(speed_ratio), 0.5))
+
+func red(ratio):
+	if ratio > 0:
+		return ratio
+	else:
+		return 0
+
+func green(ratio):
+	return 1 - abs(ratio)
+
+func blue(ratio):
+	if ratio > 0:
+		return 0
+	else:
+		return -ratio
 
 func get_next_time(data, number):
 	var time = 999999999

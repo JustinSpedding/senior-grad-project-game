@@ -1,7 +1,7 @@
 
 extends KinematicBody
 
-var bullet_scene = load("res://misc/bullet/bullet.tscn")
+var projectile_scene = load("res://misc/projectiles/bullet.tscn")
 
 const crosshair_speed = 50
 const crosshair_x_upper_bound = 15
@@ -16,7 +16,7 @@ const player_y_upper_bound = 2
 const player_y_lower_bound = -2
 
 const primary_fire_cooldown = 0.01
-const primary_fire_bullet_speed = 40
+const primary_fire_speed = 40
 const primary_fire_damage = 100
 const primary_fire_spawn_offset = Vector3(0.4, 0, 0)
 
@@ -24,20 +24,43 @@ var health = 5000
 var speed_vector = Vector2(0, 0)
 var primary_fire_time_remaining = 0
 
+var game_ended = false
+
 func _ready():
 	set_fixed_process(true)
 	set_process_input(true)
 
 func _fixed_process(delta):
+	# If game already endes, do nothing
+	if game_ended:
+		return
+	
+	# End game if song ends
+	if !get_parent().get_parent().get_node("song").is_playing():
+		game_ended = true
+		set_translation(Vector3(0,0,0))
+		get_parent().get_node("end_animation").play("camera rotate")
+		get_parent().get_node("crosshair").set_hidden(true)
+		get_parent().get_node("return").set_hidden(false)
+		get_parent().get_node("win_text").set_hidden(false)
+		get_tree().call_group(0, "enemy", "explode")
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	# End game if player runs out of health
+	if health <= 0:
+		game_ended = true
+		get_parent().get_node("end_animation").play("zoom camera out")
+		get_parent().get_node("player_explosion").set_transform(get_transform())
+		get_parent().get_node("player_explosion").set_emitting(true)
+		get_parent().get_node("crosshair").set_hidden(true)
+		get_parent().get_node("return").set_hidden(false)
+		get_parent().get_node("gameover_text").set_hidden(false)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 	# Set health text in HUD
 	var health_text = get_tree().get_root().get_node("world").get_node("hud").get_node("health_text")
 	health_text.clear()
 	health_text.add_text("Health: " + str(health))
-	
-	# End game if player runs out of health
-	if (health <= 0):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().change_scene("res://menus/GameOver.tscn")
 	
 	# Move crosshair
 	var crosshair = get_parent().get_node("crosshair")
@@ -94,16 +117,16 @@ func _fixed_process(delta):
 	primary_fire_time_remaining -= delta
 	if (Input.is_action_pressed("player_fire_primary") && primary_fire_time_remaining <= 0):
 		primary_fire_time_remaining = primary_fire_cooldown
-		var bullet = bullet_scene.instance()
-		bullet.speed = primary_fire_bullet_speed
-		bullet.damage = primary_fire_damage
-		bullet.target_group = "damageable"
-		bullet.target_ref = get_target()
-		get_parent().get_parent().add_child(bullet)
-		bullet.set_transform(get_global_transform())
-		bullet.translate(primary_fire_spawn_offset)
+		var projectile = projectile_scene.instance()
+		projectile.speed = primary_fire_speed
+		projectile.damage = primary_fire_damage
+		projectile.target_group = "damageable"
+		projectile.target_ref = get_target()
+		get_parent().get_parent().add_child(projectile)
+		projectile.set_transform(get_global_transform())
+		projectile.translate(primary_fire_spawn_offset)
 		primary_fire_spawn_offset *= -1
-		bullet.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
+		projectile.look_at(get_parent().get_node("crosshair").get_global_transform().origin, Vector3(0,1,0))
 
 func get_target():
 	# Cast a ray

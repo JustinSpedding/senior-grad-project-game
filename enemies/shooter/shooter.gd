@@ -1,7 +1,6 @@
+extends "res://enemies/enemy.gd"
 
-extends KinematicBody
-
-var bullet_scene = load("res://misc/bullet/bullet.tscn")
+var projectile_scene = load("res://misc/projectiles/bullet.tscn")
 
 const STATE = {
 	Homing = 0,
@@ -14,8 +13,8 @@ const wandering_speed = 3
 const wandering_x_bound = 5
 const wandering_y_bound = 3
 
-const bullet_speed = 20
-const bullet_damage = 100
+const projectile_speed = 40
+const projectile_damage = 100
 
 var target
 var health = 1000
@@ -27,7 +26,7 @@ func _ready():
 
 func _fixed_process(delta):
 	if health <= 0:
-		queue_free()
+		explode()
 	
 	if target != null:
 		if (state == STATE.Homing):
@@ -57,14 +56,10 @@ func wander(delta):
 		direction = Vector3(randf(), -1, 0)
 
 func shoot():
-	var bullet = bullet_scene.instance()
-	bullet.speed = bullet_speed
-	bullet.damage = bullet_damage
-	bullet.target_group = "player"
-	get_parent().get_parent().add_child(bullet)
-	bullet.set_transform(get_global_transform())
-	bullet.look_at(get_global_transform().origin + Vector3(0,0,1), Vector3(0,1,0))
-
-func is_close_enough(point1, point2, distance):
-	var diff = (point1 - point2).abs()
-	return diff.x <= distance && diff.y <= distance && diff.z <= distance
+	var projectile = projectile_scene.instance()
+	projectile.speed = projectile_speed
+	projectile.damage = projectile_damage
+	projectile.target_group = "player"
+	get_parent().get_parent().add_child(projectile)
+	projectile.set_transform(get_global_transform())
+	projectile.look_at(get_global_transform().origin + Vector3(0,0,1), Vector3(0,1,0))
