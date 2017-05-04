@@ -50,6 +50,7 @@ func _fixed_process(delta):
 	if health <= 0:
 		game_ended = true
 		get_parent().get_node("end_animation").play("zoom camera out")
+		get_parent().get_node("player_explosion").set_transform(get_transform())
 		get_parent().get_node("player_explosion").set_emitting(true)
 		get_parent().get_node("crosshair").set_hidden(true)
 		get_parent().get_node("return").set_hidden(false)
