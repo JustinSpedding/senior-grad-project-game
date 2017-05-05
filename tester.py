@@ -15,11 +15,22 @@ from tflearn.data_preprocessing import ImagePreprocessing
 from tflearn.data_augmentation import ImageAugmentation
 from matplotlib.image import imread
 from os import listdir
+import imageSplitter
 # Load the data set
 dirs = [f for f in listdir("./ss/")]
-X = [imread("./ss/%s" % (f)) for f in dirs]
+X = []
+i = 0
+for d in dirs[0:10]:
+    print(i)
+    i += 1
+    X.extend(imageSplitter.getSubImages(imread("./ss/%s" % (d))))
 Y = []
 dirs = [f for f in listdir("./loc/")]
+for d in dirs:
+    f = open("./loc/%s" % (d))
+    y = f.read().split(' ')
+    Y.extend(imageSplitter.convertIndex(float(y[0]), float(y[1])))
+    
 
 # Make sure the data is normalized
 img_prep = ImagePreprocessing()
@@ -36,37 +47,42 @@ img_aug.add_random_blur(sigma_max=3.)
 # Define our network architecture:
 
 # Input is a 32x32 image with 3 color channels (red, green and blue)
-network = input_data(shape=[None, 600, 1024, 4],
-                     data_preprocessing=img_prep)
 
-network = max_pool_2d(network, 4)
+network = input_data(shape=[None, 120, 256, 1])
+
+network = max_pool_2d(network, 2)
 
 # Step 1: Convolution
-network = conv_2d(network, 48, 3, activation='relu')
+network = conv_2d(network, 32, 3, activation='sigmoid')
 
 # Step 2: Max pooling
 network = max_pool_2d(network, 2)
 
 # Step 3: Convolution again
-network = conv_2d(network, 64, 3, activation='relu')
+network = conv_2d(network, 64, 3, activation='sigmoid')
 
 # Step 4: Convolution yet again
-network = conv_2d(network, 64, 3, activation='relu')
+network = conv_2d(network, 64, 3, activation='sigmoid')
 
 # Step 5: Max pooling again
 network = max_pool_2d(network, 2)
 
 # Step 6: Fully-connected 512 node neural network
-network = fully_connected(network, 512, activation='relu')
+network = fully_connected(network, 512, activation='sigmoid')
 
 # Step 7: Dropout - throw away some data randomly during training to prevent over-fitting
-#network = dropout(network, 0.5)
+network = dropout(network, 0.5)
 
 # Step 8: Fully-connected neural network with two outputs (0=isn't a bird, 1=is a bird) to make the final prediction
-network = fully_connected(network, 2)
+network = fully_connected(network, 1, activation='sigmoid')
 
 # Wrap the network in a model object
 model = tflearn.DNN(network, tensorboard_verbose=0)
 model.load("./cnn/image-classifier.tfl")
-model.predict(X)
-print(model.predict(X))
+Y = model.predict(X)
+for i in range(len(Y) // 20):
+    for j in range(20):
+        if (Y[i * 20 + j][0] > .9):
+            print(i, 256 * (j % 4), 120 * (j // 5), Y[i * 20 + j])
+        else:
+            print(Y[i * 20 + j][0])

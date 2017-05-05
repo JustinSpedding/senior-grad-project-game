@@ -16,9 +16,10 @@ def getSubImages(image):
 def convertIndex(x, y):
     newX = int(x) // 256
     newY = int(y) // 120
-    index = (5 * newY) + newX
-    output = [0 for i in range(5 * 4)]
-    output[index] = 1
+    index = (4 * newY) + newX
+    #print(index, x, y)
+    output = [[0] for i in range(5 * 4)]
+    output[index] = [1]
     return output
     
 def splitter(image, x, y, height, width):
@@ -27,5 +28,6 @@ def splitter(image, x, y, height, width):
         row = []
         for j in range(width):
             row.append(image[y + i][x + j])
+            #print(image[y + i][j + j][1])
         segment.append(row)
     return segment
