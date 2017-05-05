@@ -3,7 +3,7 @@ extends KinematicBody
 
 var projectile_scene = load("res://misc/projectiles/bullet.tscn")
 
-const crosshair_speed = 50
+const crosshair_speed = 10
 const crosshair_x_upper_bound = 15
 const crosshair_x_lower_bound = -15
 const crosshair_y_upper_bound = 3
