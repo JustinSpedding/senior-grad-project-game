@@ -1,30 +1,31 @@
 extends "res://enemies/enemy.gd"
 
-var projectile_scene = load("res://misc/projectiles/missile.tscn")
+class_name Rocketeer
+
+var projectile_scene: PackedScene = load("res://misc/projectiles/missile.tscn")
 
 const STATE = {
 	Homing = 0,
 	Wandering = 1
 }
 
-const homing_speed = 5
-const homing_distance = 7
-const wandering_speed = 3
-const wandering_x_bound = 5
-const wandering_y_bound = 3
+const homing_speed: float = 5.0
+const homing_distance: float = 7.0
+const wandering_speed: float = 3.0
+const wandering_x_bound: float = 5.0
+const wandering_y_bound: float = 3.0
 
-const projectile_speed = 10
-const projectile_damage = 300
+const projectile_speed: float = 10.0
+const projectile_damage: int = 300
 
-var target
-var health = 2000
-var state = STATE.Homing
-var direction
+var direction: Vector3
 
-func _ready():
-	set_fixed_process(true)
+func _ready() -> void:
+	set_physics_process(true)
+	health = 2000
+	state = STATE.Homing
 
-func _fixed_process(delta):
+func _physics_process(delta: float) -> void:
 	if health <= 0:
 		explode()
 	
@@ -34,32 +35,32 @@ func _fixed_process(delta):
 		elif (state == STATE.Wandering):
 			wander(delta)
 
-func home(delta):
+func home(delta: float) -> void:
 	# Move closer to target
-	translate((target.get_global_transform().origin + Vector3(0, 0, -homing_distance) - get_global_transform().origin) * delta * homing_speed);
+	translate((target.get_global_transform().origin + Vector3(0.0, 0.0, -homing_distance) - get_global_transform().origin) * delta * homing_speed);
 	
 	# Switch to wandering state if the shooter is already close enough to the target
-	if (is_close_enough(target.get_global_transform().origin + Vector3(0, 0, -homing_distance), get_global_transform().origin, 0.7)):
+	if (is_close_enough(target.get_global_transform().origin + Vector3(0.0, 0.0, -homing_distance), get_global_transform().origin, 0.7)):
 		state = STATE.Wandering
-		direction = Vector3(randf(), randf(), 0)
+		direction = Vector3(randf(), randf(), 0.0)
 
-func wander(delta):
+func wander(delta: float) -> void:
 	translate(delta * direction * wandering_speed)
-	var new_location = get_global_transform().origin
+	var new_location: Vector3 = get_global_transform().origin
 	if new_location.x <= -wandering_x_bound:
-		direction = Vector3(1, randf(), 0)
+		direction = Vector3(1.0, randf(), 0.0)
 	if new_location.x >= wandering_x_bound:
-		direction = Vector3(-1, randf(), 0)
+		direction = Vector3(-1.0, randf(), 0.0)
 	if new_location.y <= -wandering_y_bound:
-		direction = Vector3(randf(), 1, 0)
+		direction = Vector3(randf(), 1.0, 0.0)
 	if new_location.y >= wandering_y_bound:
-		direction = Vector3(randf(), -1, 0)
+		direction = Vector3(randf(), -1.0, 0.0)
 
-func shoot():
-	var projectile = projectile_scene.instance()
+func shoot() -> void:
+	var projectile: Projectile = projectile_scene.instance()
 	projectile.speed = projectile_speed
 	projectile.damage = projectile_damage
 	projectile.target_group = "player"
 	get_parent().get_parent().add_child(projectile)
 	projectile.set_transform(get_global_transform())
-	projectile.look_at(get_global_transform().origin + Vector3(0,0,1), Vector3(0,1,0))
+	projectile.look_at(get_global_transform().origin + Vector3(0.0, 0.0, 1.0), Vector3(0.0, 1.0, 0.0))

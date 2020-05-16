@@ -1,26 +1,24 @@
 extends "res://enemies/enemy.gd"
 
-const homing_speed_forward = 20
-const homing_speed_sideways = 5
-const attack_damage = 300
+const homing_speed_forward: float = 20.0
+const homing_speed_sideways: float = 5.0
+const attack_damage: int = 300
 
-var target
-var health = 1000
-
-func _ready():
-	set_fixed_process(true)
+func _ready() -> void:
+	set_physics_process(true)
+	health = 1000
 	
-func _fixed_process(delta):
+func _physics_process(delta: float) -> void:
 	if health <= 0:
 		explode()
 
 	if target != null:
 		home(delta)
 
-func home(delta):
+func home(delta: float) -> void:
 	# Move closer to target
-	var a = target.get_global_transform().origin * delta * homing_speed_sideways
-	var b = get_global_transform().origin * delta * homing_speed_sideways
+	var a: Vector3 = target.get_global_transform().origin * (delta * homing_speed_sideways)
+	var b: Vector3 = get_global_transform().origin * (delta * homing_speed_sideways)
 	translate(Vector3(a.x - b.x, a.y - b.y, homing_speed_forward * delta + abs(a.z - b.z)))
 
 	# Damage player and switch to homing if hit target
@@ -29,5 +27,5 @@ func home(delta):
 		queue_free()
 
 	# Die if already passed player
-	if target.get_global_transform().origin.z <= get_global_transform().origin.z - 10:
+	if target.get_global_transform().origin.z <= get_global_transform().origin.z - 10.0:
 		queue_free()

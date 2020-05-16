@@ -1,0 +1,73 @@
+[gd_scene load_steps=34 format=2]
+
+[ext_resource path="res://menus/menu_animation.gd" type="Script" id=1]
+[ext_resource path="res://menus/Start Menu Frames/frame_11_delay-0.07s.png" type="Texture" id=2]
+[ext_resource path="res://menus/Start Menu Frames/frame_8_delay-0.07s.png" type="Texture" id=3]
+[ext_resource path="res://fonts/hud_lable.font" type="BitmapFont" id=4]
+[ext_resource path="res://menus/start_game.gd" type="Script" id=5]
+[ext_resource path="res://menus/Start Menu Frames/frame_17_delay-0.07s.png" type="Texture" id=6]
+[ext_resource path="res://menus/Start Menu Frames/frame_16_delay-0.07s.png" type="Texture" id=7]
+[ext_resource path="res://menus/Start Menu Frames/frame_3_delay-0.07s.png" type="Texture" id=8]
+[ext_resource path="res://menus/Start Menu Frames/frame_15_delay-0.07s.png" type="Texture" id=9]
+[ext_resource path="res://menus/Start Menu Frames/frame_10_delay-0.07s.png" type="Texture" id=10]
+[ext_resource path="res://menus/Start Menu Frames/frame_9_delay-0.07s.png" type="Texture" id=11]
+[ext_resource path="res://menus/Start Menu Frames/frame_5_delay-0.07s.png" type="Texture" id=12]
+[ext_resource path="res://menus/Start Menu Frames/frame_13_delay-0.07s.png" type="Texture" id=13]
+[ext_resource path="res://menus/Start Menu Frames/frame_6_delay-0.07s.png" type="Texture" id=14]
+[ext_resource path="res://menus/Start Menu Frames/frame_0_delay-0.07s.png" type="Texture" id=15]
+[ext_resource path="res://menus/Start Menu Frames/frame_1_delay-0.07s.png" type="Texture" id=16]
+[ext_resource path="res://menus/Start Menu Frames/frame_2_delay-0.07s.png" type="Texture" id=17]
+[ext_resource path="res://menus/Start Menu Frames/frame_12_delay-0.07s.png" type="Texture" id=18]
+[ext_resource path="res://menus/Start Menu Frames/frame_4_delay-0.07s.png" type="Texture" id=19]
+[ext_resource path="res://menus/Start Menu Frames/frame_7_delay-0.07s.png" type="Texture" id=20]
+[ext_resource path="res://menus/Start Menu Frames/frame_14_delay-0.07s.png" type="Texture" id=21]
+[ext_resource path="res://menus/Start Menu Frames/frame_20_delay-0.07s.png" type="Texture" id=22]
+[ext_resource path="res://menus/Start Menu Frames/frame_19_delay-0.07s.png" type="Texture" id=23]
+[ext_resource path="res://menus/Start Menu Frames/frame_18_delay-0.07s.png" type="Texture" id=24]
+[ext_resource path="res://menus/Start Menu Frames/frame_26_delay-0.07s.png" type="Texture" id=25]
+[ext_resource path="res://menus/Start Menu Frames/frame_23_delay-0.07s.png" type="Texture" id=26]
+[ext_resource path="res://menus/Start Menu Frames/frame_22_delay-0.07s.png" type="Texture" id=27]
+[ext_resource path="res://menus/Start Menu Frames/frame_21_delay-0.07s.png" type="Texture" id=28]
+[ext_resource path="res://menus/Start Menu Frames/frame_27_delay-0.07s.png" type="Texture" id=29]
+[ext_resource path="res://menus/Start Menu Frames/frame_25_delay-0.07s.png" type="Texture" id=30]
+[ext_resource path="res://menus/Start Menu Frames/frame_28_delay-0.07s.png" type="Texture" id=31]
+[ext_resource path="res://menus/Start Menu Frames/frame_24_delay-0.07s.png" type="Texture" id=32]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 8 ), ExtResource( 19 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 20 ), ExtResource( 3 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 2 ), ExtResource( 18 ), ExtResource( 13 ), ExtResource( 21 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 22 ), ExtResource( 28 ), ExtResource( 27 ), ExtResource( 26 ), ExtResource( 32 ), ExtResource( 30 ), ExtResource( 25 ), ExtResource( 29 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Control" type="Control"]
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Background" type="AnimatedSprite" parent="."]
+position = Vector2( 515, 299 )
+scale = Vector2( 1.00586, 1 )
+frames = SubResource( 1 )
+script = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="."]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 445.0
+margin_bottom = 106.0
+rect_scale = Vector2( 2.5, 2.5 )
+mouse_filter = 1
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 4 )
+text = "Definitely Not Star Shooter"
+
+[node name="PlayGame" type="Button" parent="."]
+margin_left = 450.0
+margin_top = 500.0
+margin_right = 570.0
+margin_bottom = 550.0
+custom_fonts/font = ExtResource( 4 )
+text = "Play"
+script = ExtResource( 5 )
+[connection signal="pressed" from="PlayGame" to="PlayGame" method="_on_PlayGame_pressed"]
